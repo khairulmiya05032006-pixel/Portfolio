@@ -1,0 +1,26 @@
+export const metadata = {
+  title: 'Building a REST API with Express and MySQL',
+  description: 'Lessons from building the Amana Capital backend with proper error handling and JWT auth.',
+  publishedAt: '2026-09-15',
+  slug: 'building-rest-api-express-mysql',
+  tags: ['Node.js', 'Express', 'MySQL', 'Backend'],
+  draft: false,
+}
+
+# Building a REST API with Express and MySQL
+
+When I built Amana Capital, structuring the backend properly was one of the most important lessons. Here is what I learned about separating concerns in a Node.js application.
+
+## Route → Controller → Service
+
+Keeping route definitions, business logic, and database queries in separate layers makes the codebase easier to test and maintain.
+
+## Error Handling
+
+A centralized error middleware catches all unhandled errors and returns consistent JSON responses. This prevents the server from leaking stack traces to clients.
+
+## Authentication with JWT
+
+JSON Web Tokens provide stateless authentication. Short-lived access tokens paired with refresh tokens balance security and user experience.
+
+This is a sample blog post for the portfolio. Replace it with your own content.

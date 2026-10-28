@@ -1,57 +1,8 @@
-export type NavigationItem = {
-  label: string
-  href: string
-  icon: 'home' | 'profile' | 'skills' | 'work' | 'blog' | 'contact'
-}
-
-export type SkillGroup = {
-  number: string
-  title: string
-  items: string[]
-  description: string
-}
-
-export type Project = {
-  number: string
-  slug: string
-  name: string
-  context: string
-  built: string
-  technologies: string[]
-  learned: string
-  featured?: boolean
-}
-
-export type LearningNote = {
-  number: string
-  title: string
-  excerpt: string
-  tags: string[]
-  treatment: 'signal' | 'system' | 'layout'
-}
-
-export type BlogArticle = {
-  number: string
-  slug: string
-  title: string
-  excerpt: string
-  category: string
-  date: string
-  readTime: string
-  gradient: [string, string]
-  content?: {
-    overview: string
-    keyPoints: string[]
-    codeExample?: string
-    takeaway: string
-  }
-}
-
-export type TechnicalSkill = {
-  name: string
-  percentage: number
-  category: 'Frontend' | 'Backend' | 'Database' | 'Workflow'
-}
+import type {
+  NavigationItem,
+  LearningNote,
+  BlogArticle,
+} from '@/types/content'
 
 export const navigation: NavigationItem[] = [
   { label: 'Home', href: '#home', icon: 'home' },
@@ -62,107 +13,28 @@ export const navigation: NavigationItem[] = [
   { label: 'Contact', href: '#contact', icon: 'contact' },
 ]
 
-export const profile = {
-  name: 'Khairul Miya',
-  role: 'Full-stack developer in progress',
-  introduction:
-    'A BCA student learning to build useful web products through front-end and back-end development.',
-  about:
-    'I am a third-year BCA student, graduating in 2027, with a growing interest in taking an idea from a clear interface to dependable application logic. My current practice combines small JavaScript experiments with a documented full-stack system.',
-  contact:
-    'I’m interested in opportunities to learn, contribute, and build thoughtful web products.',
-} as const
-
-export const factCards = [
-  { value: '2027', label: 'Expected BCA graduation' },
-  { value: '01', label: 'Full-stack system documented' },
-  { value: '04', label: 'JavaScript mini-projects documented' },
-  { value: 'Focus', label: 'Full-stack web development' },
-] as const
-
-export const skillGroups: SkillGroup[] = [
-  {
-    number: '01',
-    title: 'Front-end',
-    items: ['JavaScript', 'React', 'Next.js', 'HTML', 'CSS', 'Tailwind'],
-    description: 'Responsive interfaces and practical browser interactions.',
-  },
-  {
-    number: '02',
-    title: 'Back-end',
-    items: ['Node.js', 'Express', 'Authentication'],
-    description: 'Application routes, logic, and protected user flows.',
-  },
-  {
-    number: '03',
-    title: 'Data',
-    items: ['MySQL', 'Data-flow design'],
-    description: 'Organising information for application features and reports.',
-  },
-  {
-    number: '04',
-    title: 'Workflow',
-    items: ['Git', 'GitHub', 'Responsive UI', 'Performance-aware builds'],
-    description: 'A thoughtful process for iterating on useful web products.',
-  },
-]
-
-export const projects: Project[] = [
-  {
-    number: '01',
-    slug: 'amana-capital',
-    name: 'Amana Capital',
-    context: 'Learning project · microfinance loan management',
-    built:
-      'A Node.js and Express web application for customer management, loan application tracking, payment processing, and reporting.',
-    technologies: ['Node.js', 'Express', 'MySQL', 'JWT authentication'],
-    learned:
-      'How customer records, loan applications, payments, and reports connect through a full-stack system.',
-    featured: true,
-  },
-  {
-    number: '02',
-    slug: 'javascript-mini-projects',
-    name: 'JavaScript Mini Projects',
-    context: 'Practice projects · browser interaction',
-    built:
-      'A Digital Clock, Background Color Generator, Random Quote Generator, and Income Tax Calculator.',
-    technologies: ['JavaScript', 'DOM APIs', 'Event handling', 'Conditional logic'],
-    learned:
-      'Core interaction patterns, live updates, and readable client-side logic.',
-  },
-  {
-    number: '03',
-    slug: 'visual-studies',
-    name: 'Visual Studies',
-    context: 'Responsive front-end studies',
-    built:
-      'A Spotify clone and an Apna Studio photography website as exercises in interface composition.',
-    technologies: ['HTML', 'CSS', 'Responsive layout'],
-    learned:
-      'How structure, spacing, and responsive behaviour shape a clear visual experience.',
-  },
-]
-
 export const learningNotes: LearningNote[] = [
   {
     number: '01',
     title: 'Small tools, real interaction',
-    excerpt: 'A learning note from building JavaScript mini projects around DOM updates, events, and conditional logic.',
+    excerpt:
+      'A learning note from building JavaScript mini projects around DOM updates, events, and conditional logic.',
     tags: ['JavaScript', 'DOM interaction'],
     treatment: 'signal',
   },
   {
     number: '02',
     title: 'Tracing the loan flow',
-    excerpt: 'A closer look at how customer records, applications, payments, and reports connect in Amana Capital.',
+    excerpt:
+      'A closer look at how customer records, applications, payments, and reports connect in Amana Capital.',
     tags: ['Node.js', 'MySQL'],
     treatment: 'system',
   },
   {
     number: '03',
     title: 'Structure before style',
-    excerpt: 'A visual study in using responsive structure and deliberate spacing to make a front-end interface clearer.',
+    excerpt:
+      'A visual study in using responsive structure and deliberate spacing to make a front-end interface clearer.',
     tags: ['HTML', 'CSS'],
     treatment: 'layout',
   },
@@ -186,7 +58,7 @@ export const blogArticles: BlogArticle[] = [
     category: 'JavaScript',
     date: '2026-10-18',
     readTime: '6 min read',
-    gradient: ['#ffb000', '#ff7a18'],
+    gradient: ['#a78bfa', '#c084fc'],
     content: {
       overview:
         'A closure is the combination of a function bundled together with references to its surrounding state (the lexical environment). In JavaScript, every inner function maintains access to its outer scope variables even after the outer function finishes execution.',
@@ -223,7 +95,7 @@ function createRateLimiter(maxCalls = 3, timeWindowMs = 1000) {
     category: 'React',
     date: '2026-10-10',
     readTime: '8 min read',
-    gradient: ['#61dafb', '#2196f3'],
+    gradient: ['#818cf8', '#6366f1'],
     content: {
       overview:
         'Modern React offers multiple primitives for managing application state. Choosing the right pattern depends on state velocity, component distance, and whether data needs to synchronize across sibling trees.',
@@ -256,7 +128,7 @@ function dataReducer(state: State, action: Action): State {
     category: 'Backend',
     date: '2026-09-28',
     readTime: '7 min read',
-    gradient: ['#68a063', '#3c873a'],
+    gradient: ['#34d399', '#059669'],
     content: {
       overview:
         'Building production-ready REST APIs requires clear separation of concerns. While building Amana Capital, separating routing, business logic, validation, and error handling proved vital for reliability.',
@@ -289,7 +161,7 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
     category: 'Database',
     date: '2026-09-15',
     readTime: '5 min read',
-    gradient: ['#00758f', '#f29111'],
+    gradient: ['#38bdf8', '#0284c7'],
     content: {
       overview:
         'Relational databases provide strong guarantees around consistency and relationships. Normalizing data prevents duplicate records and keeps transactions clean.',
@@ -320,7 +192,7 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
     category: 'Frontend',
     date: '2026-09-02',
     readTime: '6 min read',
-    gradient: ['#e44d26', '#f16529'],
+    gradient: ['#f472b6', '#db2777'],
     content: {
       overview:
         'CSS layout becomes intuitive once you match the layout requirement to the right mental model: Flexbox for content-driven 1D distribution, and Grid for structure-driven 2D systems.',
@@ -349,7 +221,7 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
     category: 'Security',
     date: '2026-08-20',
     readTime: '7 min read',
-    gradient: ['#d63384', '#6f42c1'],
+    gradient: ['#c084fc', '#9333ea'],
     content: {
       overview:
         'JSON Web Tokens (JWT) enable stateless authentication by encoding user claims cryptographically signed by the server. This removes the need for centralized session lookups on every request.',
@@ -375,15 +247,4 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
         'Stateless tokens deliver scalable auth, but require disciplined secret management and short expiration windows.',
     },
   },
-]
-
-export const technicalSkills: TechnicalSkill[] = [
-  { name: 'JavaScript', percentage: 75, category: 'Frontend' },
-  { name: 'React', percentage: 70, category: 'Frontend' },
-  { name: 'Next.js', percentage: 65, category: 'Frontend' },
-  { name: 'HTML & CSS', percentage: 80, category: 'Frontend' },
-  { name: 'Node.js', percentage: 65, category: 'Backend' },
-  { name: 'Express', percentage: 60, category: 'Backend' },
-  { name: 'MySQL', percentage: 55, category: 'Database' },
-  { name: 'Git & GitHub', percentage: 70, category: 'Workflow' },
 ]

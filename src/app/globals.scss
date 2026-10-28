@@ -1,0 +1,42 @@
+@use '../styles/abstracts/tokens';
+@use '../styles/abstracts/motion';
+
+:root {
+  --color-background: #0a0a0f;
+  --color-surface: #12121a;
+  --color-deep: #060609;
+  --color-text: #eee8f5;
+  --color-muted: #9e97a8;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-accent: #a78bfa;
+  --color-accent-light: #c084fc;
+  --color-pink: #f472b6;
+  /* Palette compatibility mappings for violet/lilac theme */
+  --color-amber: #a78bfa;
+  --color-orange: #c084fc;
+  --color-focus: #ddd6fe;
+  --font-display: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4.5rem;
+  --space-8: 7rem;
+  --radius-sm: 0.45rem;
+  --radius-pill: 999px;
+  --motion-fast: 180ms;
+  --motion-base: 300ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--color-background); scroll-behavior: smooth; }
+body { margin: 0; background: var(--color-background); color: var(--color-text); font-family: var(--font-body); text-rendering: optimizeLegibility; }
+a { color: inherit; }
+button, input, textarea { font: inherit; }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; }
+::selection { background: var(--color-accent); color: var(--color-deep); }

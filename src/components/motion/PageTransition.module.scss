@@ -26,29 +26,29 @@
   will-change: transform;
 }
 
-/* 6-Bar Golden Spectrum Palette (Left to Right) */
+/* 6-Bar Violet-to-Lilac Spectrum Palette (Left to Right) */
 .bar1 {
-  background: #7a5200; /* Deep brownish-gold */
+  background: #3b0764; /* Deep violet night */
 }
 
 .bar2 {
-  background: #a87800; /* Dark mustard */
+  background: #581c87; /* Royal purple */
 }
 
 .bar3 {
-  background: #d49b00; /* Warm amber gold */
+  background: #7e22ce; /* Vibrant purple */
 }
 
 .bar4 {
-  background: #ffb703; /* Vivid golden yellow */
+  background: #9333ea; /* Luminous violet */
 }
 
 .bar5 {
-  background: #ffcc00; /* Bright canary yellow */
+  background: #a855f7; /* Bright lilac */
 }
 
 .bar6 {
-  background: #ffd13b; /* Soft golden glow */
+  background: #c084fc; /* Soft lavender glow */
 }
 
 @media (prefers-reduced-motion: reduce) {

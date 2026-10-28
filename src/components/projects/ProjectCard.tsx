@@ -14,7 +14,7 @@ export function ProjectCard({ project }: { project: Project }) {
           <div><dt>What I built</dt><dd>{project.built}</dd></div>
           <div><dt>What I learned</dt><dd>{project.learned}</dd></div>
         </dl>
-        <TagList items={project.technologies} />
+        <TagList items={project.technologies ?? []} />
         {project.featured && <AmanaFlowDiagram />}
       </div>
     </article>
