@@ -1,0 +1,18 @@
+@use '../../styles/abstracts/mixins' as mixins;
+
+.card { background: var(--color-surface); border: 1px solid var(--color-border); display: grid; gap: 1.5rem clamp(1.5rem, 5vw, 5rem); grid-template-columns: minmax(7rem, 0.28fr) minmax(0, 1fr); overflow: hidden; padding: clamp(1.5rem, 4vw, 3.2rem); position: relative; transition: border-color 200ms var(--ease-out), transform 200ms var(--ease-out); }
+.card + .card { margin-top: 1rem; }
+.card:hover { border-color: rgba(255, 176, 0, 0.55); transform: translateY(-3px); }
+.topLine { background: var(--color-amber); height: 2px; left: 0; position: absolute; top: 0; transform: scaleX(0.18); transform-origin: left; transition: transform 200ms var(--ease-out); width: 100%; }
+.card:hover .topLine { transform: scaleX(1); }
+.meta { @include mixins.mono-label; color: var(--color-muted); }
+.meta span { color: var(--color-amber); font-size: 1rem; }
+.meta p { line-height: 1.55; margin: 0.7rem 0 0; max-width: 12ch; transition: color 200ms var(--ease-out); }
+.card:hover .meta p { color: var(--color-text); }
+.content h3 { @include mixins.display-type; font-size: clamp(2.8rem, 6vw, 5.7rem); margin: 0; transition: transform 200ms var(--ease-out); }
+.card:hover .content h3 { transform: translateX(4px); }
+.content dl { display: grid; gap: 1.25rem 2rem; grid-template-columns: repeat(2, 1fr); margin: 1.5rem 0 0; }
+.content dt { @include mixins.mono-label; color: var(--color-amber); }
+.content dd { color: var(--color-muted); font-size: 0.92rem; line-height: 1.65; margin: 0.45rem 0 0; max-width: 38rem; }
+.featured { background: linear-gradient(115deg, #1b1a16, var(--color-surface)); }
+@media (max-width: 680px) { .card { grid-template-columns: 1fr; } .meta p { max-width: none; } .content dl { grid-template-columns: 1fr; } }

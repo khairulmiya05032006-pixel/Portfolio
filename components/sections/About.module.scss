@@ -1,0 +1,14 @@
+@use '../../styles/abstracts/mixins' as mixins;
+
+.section { @include mixins.section-space; background: var(--color-surface); border-top: 1px solid var(--color-border); }
+.inner { margin: 0 auto; max-width: 1180px; }
+.content { display: grid; gap: 1.5rem clamp(2rem, 6vw, 8rem); grid-template-columns: minmax(0, 1.35fr) minmax(14rem, 0.65fr); margin-top: clamp(2.5rem, 7vw, 5.5rem); }
+.lede { font-size: clamp(1.3rem, 2.25vw, 2rem); letter-spacing: -0.025em; line-height: 1.45; margin: 0; max-width: 33ch; }
+.detail { border-left: 1px solid var(--color-amber); color: var(--color-muted); font-size: 0.95rem; line-height: 1.75; margin: 0; padding-left: 1rem; }
+.facts { border-top: 1px solid var(--color-border); display: grid; grid-template-columns: repeat(4, 1fr); margin: clamp(3rem, 8vw, 6.5rem) 0 0; }
+.facts div { min-height: 9.5rem; padding: 1.2rem 1rem 1.2rem 0; }
+.facts div + div { border-left: 1px solid var(--color-border); padding-left: 1.2rem; }
+.facts dt { @include mixins.display-type; color: var(--color-amber); font-size: clamp(2.2rem, 4vw, 3.7rem); }
+.facts dd { color: var(--color-muted); font-size: 0.85rem; line-height: 1.45; margin: 0.7rem 0 0; max-width: 13ch; }
+@media (max-width: 760px) { .content { grid-template-columns: 1fr; } .facts { grid-template-columns: repeat(2, 1fr); } .facts div:nth-child(3) { border-left: 0; border-top: 1px solid var(--color-border); } .facts div:nth-child(4) { border-top: 1px solid var(--color-border); } }
+@media (max-width: 620px) { .facts { grid-template-columns: 1fr; } .facts div, .facts div + div, .facts div:nth-child(3), .facts div:nth-child(4) { border-left: 0; border-top: 1px solid var(--color-border); min-height: auto; padding: 1.2rem 0; } .facts div:first-child { border-top: 0; } .facts dd { max-width: none; } }

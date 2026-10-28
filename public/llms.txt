@@ -1,0 +1,15 @@
+# Khairul Miya | Personal portfolio
+
+Khairul Miya is a third-year BCA student graduating in 2027 and an aspiring full-stack web developer. His current work focuses on JavaScript, React, Node.js, Express, and MySQL.
+
+## Pages
+- [About](/#about): education and current professional focus
+- [Projects](/#work): verified project summaries
+- [Skills](/#skills): technical focus
+- [Technical skills](/#technical-skills): animated circular proficiency indicators
+- [Blog](/#blog): latest technical articles and insights
+- [Learning notes](/#work): project-based notes on current learning
+- [Contact](/#contact): contact details will be added when verified
+
+## Featured project
+- [Amana Capital](/#amana-capital): microfinance loan management system built with Node.js, Express, MySQL, and JWT authentication.

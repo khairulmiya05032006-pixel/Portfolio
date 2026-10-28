@@ -1,0 +1,58 @@
+.overlay {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  height: 100dvh;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  visibility: hidden;
+  width: 100vw;
+  z-index: 9999;
+}
+
+.overlayActive {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.bar {
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  flex: 1 1 0%;
+  height: 100%;
+  margin-right: -1px;
+  width: calc(100% / 6 + 1px);
+  will-change: transform;
+}
+
+/* 6-Bar Golden Spectrum Palette (Left to Right) */
+.bar1 {
+  background: #7a5200; /* Deep brownish-gold */
+}
+
+.bar2 {
+  background: #a87800; /* Dark mustard */
+}
+
+.bar3 {
+  background: #d49b00; /* Warm amber gold */
+}
+
+.bar4 {
+  background: #ffb703; /* Vivid golden yellow */
+}
+
+.bar5 {
+  background: #ffcc00; /* Bright canary yellow */
+}
+
+.bar6 {
+  background: #ffd13b; /* Soft golden glow */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    display: none !important;
+  }
+}

@@ -1,0 +1,8 @@
+@use '../../styles/abstracts/mixins' as mixins;
+
+.heading { position: relative; }
+.decorative { @include mixins.display-type; color: rgba(255, 255, 255, 0.035); font-size: clamp(4rem, 14vw, 12.5rem); left: -0.04em; line-height: 0.75; overflow: hidden; position: absolute; top: -0.1em; white-space: nowrap; }
+.eyebrow { @include mixins.mono-label; color: var(--color-amber); margin: 0 0 1rem; position: relative; }
+.heading h2 { @include mixins.display-type; font-size: clamp(3.2rem, 8vw, 7.5rem); margin: 0; max-width: 11ch; position: relative; }
+.heading h2 span { color: var(--color-amber); }
+@media (max-width: 620px) { .decorative { font-size: 5rem; } }

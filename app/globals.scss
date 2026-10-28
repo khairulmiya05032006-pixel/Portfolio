@@ -1,0 +1,10 @@
+@use '../styles/abstracts/tokens';
+@use '../styles/abstracts/motion';
+
+* { box-sizing: border-box; }
+html { background: var(--color-background); scroll-behavior: smooth; }
+body { margin: 0; background: var(--color-background); color: var(--color-text); font-family: var(--font-body); text-rendering: optimizeLegibility; }
+a { color: inherit; }
+button, input, textarea { font: inherit; }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; }
+::selection { background: var(--color-amber); color: var(--color-deep); }

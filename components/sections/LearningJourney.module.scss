@@ -1,0 +1,11 @@
+@use '../../styles/abstracts/mixins' as mixins;
+
+.section { @include mixins.section-space; background: var(--color-background); border-top: 1px solid var(--color-border); }
+.inner { margin: 0 auto; max-width: 1180px; }
+.body { display: grid; gap: 2rem clamp(2rem, 8vw, 9rem); grid-template-columns: minmax(13rem, 0.5fr) minmax(0, 1.25fr); margin-top: clamp(3rem, 8vw, 7rem); }
+.body > p { color: var(--color-muted); font-size: 0.95rem; line-height: 1.7; margin: 0; max-width: 24ch; }
+.body ol { border-top: 1px solid var(--color-border); list-style: none; margin: 0; padding: 0; }
+.body li { align-items: center; border-bottom: 1px solid var(--color-border); display: grid; gap: 1.25rem; grid-template-columns: 3rem 1fr; min-height: 4.9rem; }
+.body li span { @include mixins.mono-label; color: var(--color-amber); }
+.body li p { font-size: clamp(1rem, 1.5vw, 1.2rem); margin: 0; }
+@media (max-width: 700px) { .body { grid-template-columns: 1fr; } .body > p { max-width: 36rem; } }
