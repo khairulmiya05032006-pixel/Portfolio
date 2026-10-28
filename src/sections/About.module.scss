@@ -1,0 +1,144 @@
+@use '../styles/abstracts/mixins' as mixins;
+
+.about {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: clamp(5rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4.5rem);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.corridorLeft {
+  flex: 0 1 42%;
+  min-height: 400px;
+  pointer-events: none;
+}
+
+.corridorRight {
+  flex: 0 1 58%;
+  max-width: 680px;
+  pointer-events: auto;
+  z-index: 2;
+  background: rgba(10, 10, 15, 0.75);
+  backdrop-filter: blur(16px);
+  padding: clamp(2rem, 4vw, 3.5rem);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent, #a78bfa);
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: 0 0 1.5rem;
+  color: #ffffff;
+
+  span {
+    color: var(--color-accent, #a78bfa);
+  }
+}
+
+.contentBody {
+  p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--color-text, #eee8f5);
+    margin-bottom: 1.25rem;
+    opacity: 0.92;
+  }
+}
+
+.focusCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.card {
+  padding: 1.25rem;
+  background: rgba(18, 18, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.75rem;
+
+  .cardIcon {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent, #a78bfa);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 0.5rem;
+  }
+
+  p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-muted, #9e97a8);
+    margin: 0;
+  }
+}
+
+.signatureRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.25rem;
+  flex-wrap: wrap;
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.sigLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted, #9e97a8);
+}
+
+.sigValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 900px) {
+  .about {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .corridorLeft {
+    display: none;
+  }
+  .corridorRight {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}

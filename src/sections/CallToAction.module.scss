@@ -1,0 +1,109 @@
+@use '../styles/abstracts/mixins' as mixins;
+
+.ctaSection {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  padding: clamp(3rem, 6vh, 5rem) clamp(1.5rem, 5vw, 4.5rem);
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, rgba(59, 7, 100, 0.45) 0%, rgba(18, 18, 26, 0.85) 100%);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent, #a78bfa);
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: 0 0 1.25rem;
+  color: #ffffff;
+
+  span {
+    color: var(--color-accent, #a78bfa);
+  }
+}
+
+.description {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--color-text, #eee8f5);
+  margin: 0 0 2.5rem;
+  opacity: 0.9;
+}
+
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2rem;
+  background: var(--color-accent, #a78bfa);
+  color: #0a0a0f;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: #c084fc;
+    box-shadow: 0 8px 24px rgba(167, 139, 250, 0.45);
+  }
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.9rem 1.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #eee8f5;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-accent, #a78bfa);
+    background: rgba(167, 139, 250, 0.08);
+  }
+}
