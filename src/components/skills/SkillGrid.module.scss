@@ -1,0 +1,58 @@
+.pyramidContainer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 0 1rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: nowrap;
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 1080px) {
+  .pyramidContainer {
+    gap: 10px;
+  }
+
+  .row {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 960px) {
+  .pyramidContainer {
+    gap: 10px;
+    max-width: 760px;
+  }
+
+  .row {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pyramidContainer {
+    gap: 8px;
+    padding: 0 0.5rem;
+    max-width: 480px;
+  }
+
+  .row {
+    gap: 6px;
+  }
+}
