@@ -3,19 +3,19 @@ export interface SkillItem {
   name: string
   category: 'language' | 'frontend' | 'backend' | 'database' | 'devops' | 'tools' | 'ai'
   row: 1 | 2 | 3 | 4 | 5 | 6
-  icon: string // SVG path string or key
+  icon: string
   color?: string
 }
 
 export const SKILLS_CONFIG: SkillItem[] = [
-  // --- ROW 1 (10 items) ---
+  // --- ROW 1 (9 items): Languages & Core Web Standards ---
   {
-    id: 'python',
-    name: 'Python',
+    id: 'java',
+    name: 'Java',
     category: 'language',
     row: 1,
-    icon: 'python',
-    color: '#3776AB',
+    icon: 'java',
+    color: '#ED8B00',
   },
   {
     id: 'javascript',
@@ -32,22 +32,6 @@ export const SKILLS_CONFIG: SkillItem[] = [
     row: 1,
     icon: 'typescript',
     color: '#3178C6',
-  },
-  {
-    id: 'c',
-    name: 'C',
-    category: 'language',
-    row: 1,
-    icon: 'c',
-    color: '#A8B9CC',
-  },
-  {
-    id: 'cpp',
-    name: 'C++',
-    category: 'language',
-    row: 1,
-    icon: 'cpp',
-    color: '#00599C',
   },
   {
     id: 'html5',
@@ -89,8 +73,16 @@ export const SKILLS_CONFIG: SkillItem[] = [
     icon: 'nodejs',
     color: '#5FA04E',
   },
+  {
+    id: 'express',
+    name: 'Express.js',
+    category: 'backend',
+    row: 1,
+    icon: 'express',
+    color: '#D4C9E6',
+  },
 
-  // --- ROW 2 (9 items) ---
+  // --- ROW 2 (8 items): Modern Frontend, UI & APIs ---
   {
     id: 'tailwind',
     name: 'Tailwind CSS',
@@ -124,36 +116,12 @@ export const SKILLS_CONFIG: SkillItem[] = [
     color: '#764ABC',
   },
   {
-    id: 'express',
-    name: 'Express.js',
-    category: 'backend',
+    id: 'mui',
+    name: 'MUI',
+    category: 'frontend',
     row: 2,
-    icon: 'express',
-    color: '#D4C9E6',
-  },
-  {
-    id: 'django',
-    name: 'Django',
-    category: 'backend',
-    row: 2,
-    icon: 'django',
-    color: '#092E20',
-  },
-  {
-    id: 'flask',
-    name: 'Flask',
-    category: 'backend',
-    row: 2,
-    icon: 'flask',
-    color: '#FFFFFF',
-  },
-  {
-    id: 'fastapi',
-    name: 'FastAPI',
-    category: 'backend',
-    row: 2,
-    icon: 'fastapi',
-    color: '#009688',
+    icon: 'mui',
+    color: '#007FFF',
   },
   {
     id: 'threejs',
@@ -163,8 +131,32 @@ export const SKILLS_CONFIG: SkillItem[] = [
     icon: 'threejs',
     color: '#A78BFA',
   },
+  {
+    id: 'restapi',
+    name: 'REST API',
+    category: 'backend',
+    row: 2,
+    icon: 'restapi',
+    color: '#34D399',
+  },
+  {
+    id: 'fastapi',
+    name: 'FastAPI',
+    category: 'backend',
+    row: 2,
+    icon: 'fastapi',
+    color: '#009688',
+  },
 
-  // --- ROW 3 (7 items) ---
+  // --- ROW 3 (6 items): Backend Services & Databases ---
+  {
+    id: 'flask',
+    name: 'Flask',
+    category: 'backend',
+    row: 3,
+    icon: 'flask',
+    color: '#FFFFFF',
+  },
   {
     id: 'mongodb',
     name: 'MongoDB',
@@ -205,24 +197,16 @@ export const SKILLS_CONFIG: SkillItem[] = [
     icon: 'firebase',
     color: '#FFCA28',
   },
-  {
-    id: 'prisma',
-    name: 'Prisma',
-    category: 'database',
-    row: 3,
-    icon: 'prisma',
-    color: '#2D3748',
-  },
+
+  // --- ROW 4 (5 items): DevOps & Cloud Infrastructure ---
   {
     id: 'git',
     name: 'Git',
     category: 'tools',
-    row: 3,
+    row: 4,
     icon: 'git',
     color: '#F05032',
   },
-
-  // --- ROW 4 (5 items) ---
   {
     id: 'github',
     name: 'GitHub',
@@ -240,12 +224,12 @@ export const SKILLS_CONFIG: SkillItem[] = [
     color: '#2496ED',
   },
   {
-    id: 'linux',
-    name: 'Linux',
+    id: 'cicd',
+    name: 'CI/CD Pipeline',
     category: 'devops',
     row: 4,
-    icon: 'linux',
-    color: '#FCC624',
+    icon: 'cicd',
+    color: '#2088FF',
   },
   {
     id: 'aws',
@@ -255,16 +239,24 @@ export const SKILLS_CONFIG: SkillItem[] = [
     icon: 'aws',
     color: '#FF9900',
   },
+
+  // --- ROW 5 (4 items): Hosting, Tooling & IDE ---
   {
     id: 'vercel',
     name: 'Vercel',
     category: 'devops',
-    row: 4,
+    row: 5,
     icon: 'vercel',
     color: '#FFFFFF',
   },
-
-  // --- ROW 5 (4 items) ---
+  {
+    id: 'cpanel',
+    name: 'cPanel',
+    category: 'tools',
+    row: 5,
+    icon: 'cpanel',
+    color: '#FF6C2C',
+  },
   {
     id: 'vscode',
     name: 'VS Code',
@@ -280,47 +272,5 @@ export const SKILLS_CONFIG: SkillItem[] = [
     row: 5,
     icon: 'postman',
     color: '#FF6C37',
-  },
-  {
-    id: 'figma',
-    name: 'Figma',
-    category: 'tools',
-    row: 5,
-    icon: 'figma',
-    color: '#F24E1E',
-  },
-  {
-    id: 'jupyter',
-    name: 'Jupyter',
-    category: 'ai',
-    row: 5,
-    icon: 'jupyter',
-    color: '#F37626',
-  },
-
-  // --- ROW 6 (3 items) ---
-  {
-    id: 'numpy',
-    name: 'NumPy',
-    category: 'ai',
-    row: 6,
-    icon: 'numpy',
-    color: '#013243',
-  },
-  {
-    id: 'pandas',
-    name: 'Pandas',
-    category: 'ai',
-    row: 6,
-    icon: 'pandas',
-    color: '#150458',
-  },
-  {
-    id: 'tensorflow',
-    name: 'TensorFlow',
-    category: 'ai',
-    row: 6,
-    icon: 'tensorflow',
-    color: '#FF6F00',
   },
 ]
