@@ -40,24 +40,23 @@ export function Contact() {
     <section id="contact" className={styles.contact} aria-label="Contact Section">
       <div className={styles.container}>
         <div className={styles.infoCol}>
-          <span className={styles.eyebrow}>06 / Get In Touch</span>
+          <span className={styles.eyebrow}>Get In Touch</span>
           <h2 className={styles.title}>
             Contact & <span>Connect</span>
           </h2>
           <p className={styles.subtitle}>
-            Have an open position, project inquiry, or just want to discuss modern full-stack web
-            architectures? Drop a message.
+            Have an open role, project idea, or just want to say hi? Send me a message below.
           </p>
 
           <div className={styles.metaList}>
             <div className={styles.metaCard}>
-              <span className={styles.metaLabel}>Direct Email</span>
+              <span className={styles.metaLabel}>Email</span>
               <a href="mailto:contact@khairul.dev" className={styles.metaValue}>
                 contact@khairul.dev
               </a>
             </div>
             <div className={styles.metaCard}>
-              <span className={styles.metaLabel}>Current Availability</span>
+              <span className={styles.metaLabel}>Status</span>
               <span className={styles.metaValue}>{profile.availability}</span>
             </div>
           </div>

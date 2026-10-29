@@ -9,13 +9,12 @@ export function WhatIDo() {
   return (
     <section id="what-i-do" className={styles.whatIDo} aria-label="What I Do Section">
       <div className={styles.header}>
-        <span className={styles.eyebrow}>03 / Capabilities</span>
+        <span className={styles.eyebrow}>Capabilities</span>
         <h2 className={styles.title}>
           What I <span>Do & Build</span>
         </h2>
         <p className={styles.subtitle}>
-          Designing and implementing full-stack solutions with disciplined architecture,
-          type-safety, and interactive visual polish.
+          What I focus on when developing software and building web applications.
         </p>
       </div>
 

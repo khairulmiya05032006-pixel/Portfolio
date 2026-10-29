@@ -42,7 +42,7 @@ export function Home() {
 
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
-          <p>© {new Date().getFullYear()} Khairul Miya. Crafted with React 19, Next.js 16, Three.js & Lenis.</p>
+          <p>© {new Date().getFullYear()} Khairul Miya.</p>
           <a href="#landing" className={styles.backToTop}>
             Back to top ↑
           </a>

@@ -7,23 +7,23 @@ export function CallToAction() {
     <section className={styles.ctaSection} aria-label="Call to Action">
       <div className={styles.container}>
         <div className={styles.content}>
-          <span className={styles.eyebrow}>Let&apos;s Build Together</span>
+          <span className={styles.eyebrow}>Let&apos;s Connect</span>
           <h2 className={styles.title}>
-            Have an idea or need an engineering <span>partner</span>?
+            Have a project in mind or looking for a <span>developer</span>?
           </h2>
           <p className={styles.description}>
-            I am actively seeking junior engineering opportunities, internships, and ambitious
-            freelance projects. Let&apos;s connect and craft something remarkable.
+            I&apos;m open to internship opportunities, junior developer roles, and freelance projects.
+            Feel free to reach out anytime!
           </p>
           <div className={styles.buttonGroup}>
             <a href="#contact" className={styles.primaryButton}>
-              Initiate Conversation <span aria-hidden="true">→</span>
+              Get in Touch <span aria-hidden="true">→</span>
             </a>
             <a
               href="mailto:contact@khairul.dev"
               className={styles.secondaryButton}
             >
-              Direct Email
+              Send Email
             </a>
           </div>
         </div>

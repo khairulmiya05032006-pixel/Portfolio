@@ -173,8 +173,7 @@ export function Work() {
             Selected <span>Projects</span>
           </h2>
           <p className={styles.subtitle}>
-            A curated collection of full-stack platforms, client-side interactive
-            utilities, and responsive interface systems built with architectural discipline.
+            A collection of full-stack applications, interactive tools, and web systems I&apos;ve built.
           </p>
         </div>
 
@@ -212,8 +211,7 @@ export function Work() {
             Selected <span>Projects</span>
           </h2>
           <p className={styles.subtitle}>
-            A curated collection of full-stack platforms, client-side interactive
-            utilities, and responsive interface systems built with architectural discipline.
+            A collection of full-stack applications, interactive tools, and web systems I&apos;ve built.
           </p>
         </div>
 

@@ -101,16 +101,14 @@ export function TechStack() {
       {/* Foreground Content Container */}
       <div className={styles.container}>
         <header ref={headerRef} className={styles.header}>
-          <span className={styles.eyebrow}>05 / Core Capabilities</span>
+          <span className={styles.eyebrow}>Tech Stack</span>
           <h2 className={styles.title}>TECH STACK</h2>
           <p className={styles.subtitle}>
-            A curated ecosystem of modern programming languages, frameworks,
-            data layers, and developer tooling I leverage to build resilient
-            software.
+            Technologies, languages, and tools I work with to build web applications.
           </p>
           <div className={styles.countPill}>
             <span className={styles.dot} />
-            <span>{SKILLS_CONFIG.length}</span> Verified Technologies
+            Technologies &amp; Tools
           </div>
         </header>
 

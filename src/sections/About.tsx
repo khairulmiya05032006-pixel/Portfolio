@@ -13,47 +13,40 @@ export function About() {
 
       {/* Right Spatial Corridor: About Narrative & Fact Highlights */}
       <div className={styles.corridorRight}>
-        <span className={styles.eyebrow}>02 / Who I Am</span>
+        <span className={styles.eyebrow}>Who I Am</span>
         <h2 className={styles.title}>
-          Engineering with <span>Intent</span> & Architecture
+          About <span>Me</span>
         </h2>
 
         <div className={styles.contentBody}>
           <p>
             I am a third-year Bachelor of Computer Applications (BCA) student graduating in 2027,
-            focused on transforming ideas into robust, responsive, and dependable software systems.
+            passionate about building clean web applications and responsive interfaces.
           </p>
           <p>
-            My engineering philosophy is rooted in foundational clarity: understanding the browser
-            event loop, DOM rendering cycles, and type contracts on the front-end, while building
-            modular route-controller-service layers, relational data consistency, and JWT-secured
-            endpoints on the back-end.
+            My main focus is on modern full-stack development with React, TypeScript, and Node.js.
+            I enjoy creating fast, user-friendly experiences on the front-end and reliable, well-structured
+            APIs on the back-end.
           </p>
         </div>
 
         <div className={styles.focusCards}>
           <div className={styles.card}>
-            <div className={styles.cardIcon}>01</div>
-            <h3>Full-Stack Systems</h3>
+            <h3>Full-Stack Development</h3>
             <p>
-              Documented production patterns in Node.js, Express, and MySQL through real-world loan
-              management architectures.
+              Building end-to-end web applications with Node.js, Express, and MySQL databases.
             </p>
           </div>
           <div className={styles.card}>
-            <div className={styles.cardIcon}>02</div>
-            <h3>Modern React & 3D</h3>
+            <h3>Frontend & Interaction</h3>
             <p>
-              Next.js 16 App Router, React 19 Server Components, SCSS modules, Three.js shaders,
-              and motion choreography.
+              Crafting responsive interfaces using modern React, Next.js, and interactive animations.
             </p>
           </div>
           <div className={styles.card}>
-            <div className={styles.cardIcon}>03</div>
-            <h3>Academic Excellence</h3>
+            <h3>Computer Science</h3>
             <p>
-              Third-year BCA student maintaining high academic rigor in data structures, algorithms,
-              and software engineering.
+              Strengthening core fundamentals in data structures, algorithms, and software engineering.
             </p>
           </div>
         </div>
@@ -64,12 +57,12 @@ export function About() {
             <span className={styles.sigValue}>{profile.location}</span>
           </div>
           <div>
-            <span className={styles.sigLabel}>Expected Degree</span>
+            <span className={styles.sigLabel}>Degree</span>
             <span className={styles.sigValue}>BCA (Graduating 2027)</span>
           </div>
           <div>
-            <span className={styles.sigLabel}>Specialization</span>
-            <span className={styles.sigValue}>Full-Stack & Creative Tech</span>
+            <span className={styles.sigLabel}>Focus</span>
+            <span className={styles.sigValue}>Full-Stack Web Development</span>
           </div>
         </div>
       </div>

@@ -12,21 +12,21 @@ export function Career() {
       <span id="education" style={{ position: 'absolute', top: '-80px', opacity: 0, pointerEvents: 'none' }} aria-hidden="true" />
 
       <div className={styles.header}>
-        <span className={styles.eyebrow}>04 / Trajectory</span>
+        <span className={styles.eyebrow}>Education & Experience</span>
         <h2 className={styles.title}>
-          Education & <span>Milestones</span>
+          Academic & <span>Project Journey</span>
         </h2>
         <p className={styles.subtitle}>
-          My academic foundation and technical project journey as an aspiring full-stack software engineer.
+          My academic foundation and key projects developed along the way.
         </p>
       </div>
 
       <div className={styles.timeline}>
-        {career.map((item, index) => (
+        {career.map((item) => (
           <div key={item.id} className={styles.timelineItem}>
             <div className={styles.rail}>
               <div className={styles.node}>
-                <span>0{index + 1}</span>
+                <span className={styles.dot} />
               </div>
               <div className={styles.line} />
             </div>
