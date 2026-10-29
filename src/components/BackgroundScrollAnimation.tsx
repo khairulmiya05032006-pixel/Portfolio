@@ -129,15 +129,26 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
       return
     }
 
-    // 3. Smooth scroll tracking across the whole page
-    let trigger: ScrollTrigger | null = null
+    // 3. Smooth scroll tracking and blur choreography
+    let scrubTrigger: ScrollTrigger | null = null
+    let blurTrigger: ScrollTrigger | null = null
 
-    // Give DOM a microtask tick to ensure document height is ready
+    // Give DOM a microtask tick to ensure document height and section elements are ready
     const timer = setTimeout(() => {
-      trigger = ScrollTrigger.create({
+      const careerSection = document.getElementById('career')
+
+      // A. Scrub frames across Home (#landing) through Education (#career)
+      scrubTrigger = ScrollTrigger.create({
         trigger: document.documentElement,
         start: 'top top',
-        end: 'bottom bottom',
+        end: () => {
+          if (careerSection) {
+            const rect = careerSection.getBoundingClientRect()
+            const scrollTop = window.scrollY || document.documentElement.scrollTop
+            return `${scrollTop + rect.bottom} bottom`
+          }
+          return 'center center'
+        },
         scrub: 1.0,
         onUpdate: (self) => {
           const progress = Math.max(0, Math.min(1, self.progress))
@@ -152,7 +163,27 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
           }
         },
       })
-    }, 50)
+
+      // B. Smooth blur & fade out as user scrolls into and down past Education (#career)
+      blurTrigger = ScrollTrigger.create({
+        trigger: careerSection || '#career',
+        start: 'top 60%',
+        end: 'bottom 10%',
+        scrub: 0.8,
+        onUpdate: (self) => {
+          const p = Math.max(0, Math.min(1, self.progress))
+          // Exponential ease for natural blur transition
+          const blurAmount = Math.pow(p, 1.2) * 28 // 0px -> 28px
+          const opacity = Math.max(0, 1 - p * 1.1) // 1.0 -> 0.0
+
+          if (containerRef.current) {
+            containerRef.current.style.filter = `blur(${blurAmount.toFixed(1)}px)`
+            containerRef.current.style.opacity = opacity.toFixed(3)
+            containerRef.current.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible'
+          }
+        },
+      })
+    }, 60)
 
     const handleResize = () => {
       renderFrame(currentFrameRef.current)
@@ -163,7 +194,8 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     return () => {
       clearTimeout(timer)
       window.removeEventListener('resize', handleResize)
-      if (trigger) trigger.kill()
+      if (scrubTrigger) scrubTrigger.kill()
+      if (blurTrigger) blurTrigger.kill()
     }
   }, [])
 

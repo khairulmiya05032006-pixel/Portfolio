@@ -8,6 +8,9 @@ export function Career() {
 
   return (
     <section id="career" className={styles.career} aria-label="Career & Education Section">
+      {/* Anchor for Education */}
+      <span id="education" style={{ position: 'absolute', top: '-80px', opacity: 0, pointerEvents: 'none' }} aria-hidden="true" />
+
       <div className={styles.header}>
         <span className={styles.eyebrow}>04 / Trajectory</span>
         <h2 className={styles.title}>
