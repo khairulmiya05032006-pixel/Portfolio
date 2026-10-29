@@ -107,21 +107,19 @@ export function Work() {
 
     // GSAP Pinned Horizontal Scroll on Desktop
     const ctx = gsap.context(() => {
-      const getScrollAmount = () => {
-        const distance = Math.max(0, horizontalTrack.scrollWidth - window.innerWidth)
-        return -distance
-      }
+      const getScrollDistance = () =>
+        Math.max(0, horizontalTrack.scrollWidth - window.innerWidth)
 
       const tween = gsap.to(horizontalTrack, {
-        x: getScrollAmount,
+        x: () => -getScrollDistance(),
         ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top top',
           end: () =>
             `+=${Math.max(
-              window.innerHeight * 1.5,
-              (horizontalTrack.scrollWidth - window.innerWidth) * 1.25
+              window.innerHeight * 1.8,
+              getScrollDistance() * 1.3
             )}`,
           pin: pinWrapper,
           pinSpacing: true,

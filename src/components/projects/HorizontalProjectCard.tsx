@@ -47,66 +47,71 @@ export function HorizontalProjectCard({
       {/* Top Bar: Numbering & Category */}
       <div className={styles.topBar}>
         <span className={styles.number}>
-          {formattedIndex} / {formattedTotal}
+          {formattedIndex} <span className={styles.numberDivider}>/</span> {formattedTotal}
         </span>
         <span className={styles.categoryBadge}>{project.category}</span>
       </div>
 
-      {/* Visual Preview / Browser Mockup */}
-      <div className={styles.visualWrapper}>
-        <ProjectPreviewMockup projectId={project.id} title={project.title} />
-      </div>
+      {/* Main Editorial Body: Split Left Info & Right Visual Mockup */}
+      <div className={styles.cardBody}>
+        {/* Left: Info Section */}
+        <div className={styles.infoSection}>
+          <div className={styles.infoContent}>
+            <h3 className={styles.title}>{project.title}</h3>
+            <p className={styles.description}>{project.description}</p>
 
-      {/* Project Information */}
-      <div className={styles.infoSection}>
-        <h3 className={styles.title}>{project.title}</h3>
-        <p className={styles.description}>{project.description}</p>
+            {project.metrics && (
+              <div className={styles.metricsPill}>
+                <span className={styles.metricDot} aria-hidden="true" />
+                <span>{project.metrics}</span>
+              </div>
+            )}
 
-        {project.metrics && (
-          <div className={styles.metricsPill}>
-            <span className={styles.metricDot} aria-hidden="true" />
-            <span>{project.metrics}</span>
+            <div className={styles.techStack} aria-label="Technologies used">
+              {project.technologies.map((tech) => (
+                <span key={tech} className={styles.techTag}>
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
-        )}
 
-        <div className={styles.techStack} aria-label="Technologies used">
-          {project.technologies.map((tech) => (
-            <span key={tech} className={styles.techTag}>
-              {tech}
-            </span>
-          ))}
+          {/* Action Buttons */}
+          <div className={styles.actions}>
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                className={styles.primaryBtn}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View live preview of ${project.title}`}
+              >
+                <span>Explore Live</span>
+                <span className={styles.arrowIcon} aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            )}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                className={styles.secondaryBtn}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View source code of ${project.title} on GitHub`}
+              >
+                <span>Source Code</span>
+                <span className={styles.arrowIcon} aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            )}
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className={styles.actions}>
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              className={styles.primaryBtn}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`View live preview of ${project.title}`}
-            >
-              <span>Explore Live</span>
-              <span className={styles.arrowIcon} aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          )}
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              className={styles.secondaryBtn}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`View source code of ${project.title} on GitHub`}
-            >
-              <span>Source Code</span>
-              <span className={styles.arrowIcon} aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          )}
+        {/* Right: Visual Preview Mockup */}
+        <div className={styles.visualWrapper}>
+          <ProjectPreviewMockup projectId={project.id} title={project.title} />
         </div>
       </div>
     </article>
