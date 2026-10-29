@@ -1,6 +1,7 @@
 'use client'
 
 import { portfolioConfig } from '@/config/portfolio'
+import { ProjectScrollAnimation } from '@/components/projects/ProjectScrollAnimation'
 import styles from './Work.module.scss'
 
 export function Work() {
@@ -17,6 +18,9 @@ export function Work() {
           Real-world applications, algorithmic interactive utilities, and responsive design systems.
         </p>
       </div>
+
+      {/* Smooth Scroll Kinetic Image Sequence */}
+      <ProjectScrollAnimation />
 
       <div className={styles.projectsList}>
         {projects.map((project, idx) => (
