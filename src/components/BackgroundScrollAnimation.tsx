@@ -22,20 +22,17 @@ interface BackgroundScrollAnimationProps {
 
 export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const overlayLeftRef = useRef<HTMLDivElement>(null)
   const overlayRightRef = useRef<HTMLDivElement>(null)
 
   const imagesRef = useRef<(HTMLImageElement | null)[]>([])
   const isLoadedRef = useRef<boolean[]>([])
-  const currentFrameRef = useRef<number>(0)
 
   useEffect(() => {
     const container = containerRef.current
-    const track = trackRef.current
-    const canvas = canvasRef.current
-    if (!container || !track || !canvas) return
+    const cvs = canvasRef.current
+    if (!container || !cvs) return
 
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -44,35 +41,51 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     imagesRef.current = new Array(TOTAL_FRAMES).fill(null)
     isLoadedRef.current = new Array(TOTAL_FRAMES).fill(false)
 
-    // Calculate horizontal shift amount for right/left corridor placement
-    const getShiftAmount = () => (window.innerWidth > 768 ? window.innerWidth * 0.15 : 0)
-
-    // Set initial position: Character on the RIGHT, text on the LEFT
-    const initialShift = getShiftAmount()
-    gsap.set(track, { x: initialShift })
-
-    if (overlayLeftRef.current && overlayRightRef.current) {
-      overlayLeftRef.current.style.opacity = '1'
-      overlayRightRef.current.style.opacity = '0'
+    // Sizing: set canvas resolution cleanly without forced reflow in render ticks
+    const updateCanvasSize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const width = Math.round(window.innerWidth * dpr)
+      const height = Math.round(window.innerHeight * dpr)
+      if (cvs.width !== width || cvs.height !== height) {
+        cvs.width = width
+        cvs.height = height
+      }
     }
 
-    // Render frame to canvas with full-bleed cover logic
-    const renderFrame = (targetIndex: number) => {
-      const cvs = canvasRef.current
-      if (!cvs) return
+    updateCanvasSize()
+
+    // Smooth state variables for requestAnimationFrame lerp loop
+    const LANDING_BIAS = 0.74 // Character in Right Corridor
+    const ABOUT_BIAS = 0.22 // Character in Left Corridor
+
+    const getInitialBias = () => (window.innerWidth <= 900 ? 0.5 : LANDING_BIAS)
+
+    let targetFrame = 0
+    let currentFrame = 0
+    let targetCharBias = getInitialBias()
+    let currentCharBias = getInitialBias()
+    let targetBlur = 0
+    let currentBlur = 0
+    let targetOpacity = 1
+    let currentOpacity = 1
+
+    let animFrameId: number | null = null
+
+    // Draw frame to canvas with responsive lateral positioning
+    const drawFrame = (frameIndex: number, charBias: number) => {
       const ctx = cvs.getContext('2d')
       if (!ctx) return
 
       // Find target image or nearest loaded frame
-      let img = imagesRef.current[targetIndex]
-      if (!img || !isLoadedRef.current[targetIndex]) {
+      let img = imagesRef.current[frameIndex]
+      if (!img || !isLoadedRef.current[frameIndex]) {
         for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
-          const prev = targetIndex - offset
+          const prev = frameIndex - offset
           if (prev >= 0 && imagesRef.current[prev] && isLoadedRef.current[prev]) {
             img = imagesRef.current[prev]
             break
           }
-          const next = targetIndex + offset
+          const next = frameIndex + offset
           if (next < TOTAL_FRAMES && imagesRef.current[next] && isLoadedRef.current[next]) {
             img = imagesRef.current[next]
             break
@@ -82,40 +95,70 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
 
       if (!img || !img.complete || img.naturalWidth === 0) return
 
-      // High-DPI support
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      const rect = cvs.getBoundingClientRect()
-      const displayW = Math.round(rect.width * dpr)
-      const displayH = Math.round(rect.height * dpr)
-
-      if (cvs.width !== displayW || cvs.height !== displayH) {
-        cvs.width = displayW
-        cvs.height = displayH
-      }
-
+      const W = cvs.width
+      const H = cvs.height
       const imgW = img.naturalWidth
       const imgH = img.naturalHeight
-      const imgRatio = imgW / imgH
-      const canvasRatio = cvs.width / cvs.height
 
-      let drawW: number
-      let drawH: number
-      let offsetX = 0
-      let offsetY = 0
+      // Scale proportionally to cover height with a slight margin
+      let scale = Math.max(W / imgW, H / imgH) * 1.05
+      let drawW = imgW * scale
+      let drawH = imgH * scale
+      let drawY = (H - drawH) / 2
 
-      if (canvasRatio > imgRatio) {
-        drawW = cvs.width
-        drawH = cvs.width / imgRatio
-        offsetY = (cvs.height - drawH) / 2
-      } else {
-        drawH = cvs.height
-        drawW = cvs.height * imgRatio
-        offsetX = (cvs.width - drawW) / 2
+      // Position character at charBias of canvas width
+      // In the source video frames, the character is horizontally centered (0.5 * drawW)
+      const charScreenX = W * charBias
+      const drawX = charScreenX - drawW * 0.5
+
+      ctx.clearRect(0, 0, W, H)
+      ctx.drawImage(img, drawX, drawY, drawW, drawH)
+    }
+
+    // High-performance RAF rendering loop with inertial damping
+    const renderLoop = () => {
+      // Damped lerp for silky smooth 60/120fps motion
+      currentFrame += (targetFrame - currentFrame) * 0.14
+      currentCharBias += (targetCharBias - currentCharBias) * 0.08
+      currentBlur += (targetBlur - currentBlur) * 0.1
+      currentOpacity += (targetOpacity - currentOpacity) * 0.1
+
+      const frameIdx = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.max(0, Math.round(currentFrame))
+      )
+
+      drawFrame(frameIdx, currentCharBias)
+
+      // Smoothly update blur & opacity on container
+      if (containerRef.current) {
+        if (currentBlur > 0.1) {
+          containerRef.current.style.filter = `blur(${currentBlur.toFixed(1)}px)`
+        } else {
+          containerRef.current.style.filter = 'none'
+        }
+        containerRef.current.style.opacity = currentOpacity.toFixed(3)
+        containerRef.current.style.visibility =
+          currentOpacity <= 0.01 ? 'hidden' : 'visible'
       }
 
-      ctx.clearRect(0, 0, cvs.width, cvs.height)
-      ctx.drawImage(img, offsetX, offsetY, drawW, drawH)
+      // Smoothly crossfade reading overlays:
+      // progress: 0 (bias = LANDING_BIAS) -> 1 (bias = ABOUT_BIAS)
+      const biasRange = LANDING_BIAS - ABOUT_BIAS
+      const scrollRatio =
+        biasRange > 0
+          ? Math.max(0, Math.min(1, (LANDING_BIAS - currentCharBias) / biasRange))
+          : 0
+
+      if (overlayLeftRef.current && overlayRightRef.current) {
+        overlayLeftRef.current.style.opacity = (1 - scrollRatio).toFixed(3)
+        overlayRightRef.current.style.opacity = scrollRatio.toFixed(3)
+      }
+
+      animFrameId = requestAnimationFrame(renderLoop)
     }
+
+    animFrameId = requestAnimationFrame(renderLoop)
 
     // 1. Preload first frame immediately for instant first-paint
     const frame0 = new Image()
@@ -123,7 +166,6 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     frame0.onload = () => {
       imagesRef.current[0] = frame0
       isLoadedRef.current[0] = true
-      renderFrame(0)
     }
 
     // 2. Preload remaining frames in background
@@ -133,58 +175,47 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
       img.onload = () => {
         imagesRef.current[i] = img
         isLoadedRef.current[i] = true
-        if (currentFrameRef.current === i) {
-          renderFrame(i)
-        }
       }
     }
 
     if (prefersReducedMotion) {
-      return
+      return () => {
+        if (animFrameId) cancelAnimationFrame(animFrameId)
+      }
     }
 
-    // 3. ScrollTrigger animations
+    // 3. ScrollTrigger Choreography
     let positionTrigger: ScrollTrigger | null = null
     let scrubTrigger: ScrollTrigger | null = null
     let blurTrigger: ScrollTrigger | null = null
 
-    // Give DOM a microtask tick to ensure document height and section elements are ready
     const timer = setTimeout(() => {
       const landingSection = document.getElementById('landing')
       const aboutSection = document.getElementById('about')
       const careerSection = document.getElementById('career')
 
-      // A. Smooth lateral transition: Character RIGHT (Landing) -> Character LEFT (About)
+      // A. Character lateral glide: RIGHT (Landing) -> LEFT (About)
       if (landingSection && aboutSection) {
         positionTrigger = ScrollTrigger.create({
           trigger: landingSection,
           start: 'top top',
           endTrigger: aboutSection,
           end: 'center center',
-          scrub: 1.0,
+          scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const p = Math.max(0, Math.min(1, self.progress)) // 0 (Landing) -> 1 (About)
-            const shift = getShiftAmount()
-
-            // Interpolate smoothly: +shift (Right) -> -shift (Left)
-            const currentX = (1 - 2 * p) * shift
-            if (trackRef.current) {
-              gsap.set(trackRef.current, { x: currentX })
-            }
-
-            // Crossfade reading overlays:
-            // p = 0: overlayLeft = 1 (dark on left, clear on right)
-            // p = 1: overlayRight = 1 (clear on left, dark on right)
-            if (overlayLeftRef.current && overlayRightRef.current) {
-              overlayLeftRef.current.style.opacity = (1 - p).toFixed(3)
-              overlayRightRef.current.style.opacity = p.toFixed(3)
+            const p = Math.max(0, Math.min(1, self.progress))
+            const isMobile = window.innerWidth <= 900
+            if (isMobile) {
+              targetCharBias = 0.5
+            } else {
+              targetCharBias = LANDING_BIAS - p * (LANDING_BIAS - ABOUT_BIAS)
             }
           },
         })
       }
 
-      // B. Scrub frames across the scroll journey
+      // B. Frame sequence scrub across Landing through Education (#career)
       scrubTrigger = ScrollTrigger.create({
         trigger: document.documentElement,
         start: 'top top',
@@ -196,52 +227,38 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
           }
           return 'center center'
         },
-        scrub: 1.0,
+        scrub: true,
         onUpdate: (self) => {
-          const progress = Math.max(0, Math.min(1, self.progress))
-          const targetIndex = Math.min(
-            TOTAL_FRAMES - 1,
-            Math.round(progress * (TOTAL_FRAMES - 1))
-          )
-
-          if (targetIndex !== currentFrameRef.current) {
-            currentFrameRef.current = targetIndex
-            renderFrame(targetIndex)
-          }
+          const p = Math.max(0, Math.min(1, self.progress))
+          targetFrame = p * (TOTAL_FRAMES - 1)
         },
       })
 
-      // C. Smooth blur & fade out as user scrolls into and down past Education (#career)
+      // C. Blur & fade out into Education (#career)
       blurTrigger = ScrollTrigger.create({
         trigger: careerSection || '#career',
-        start: 'top 60%',
+        start: 'top 65%',
         end: 'bottom 10%',
-        scrub: 0.8,
+        scrub: true,
         onUpdate: (self) => {
           const p = Math.max(0, Math.min(1, self.progress))
-          // Exponential ease for natural blur transition
-          const blurAmount = Math.pow(p, 1.2) * 28 // 0px -> 28px
-          const opacity = Math.max(0, 1 - p * 1.1) // 1.0 -> 0.0
-
-          if (containerRef.current) {
-            containerRef.current.style.filter = `blur(${blurAmount.toFixed(1)}px)`
-            containerRef.current.style.opacity = opacity.toFixed(3)
-            containerRef.current.style.visibility = opacity <= 0.01 ? 'hidden' : 'visible'
-          }
+          targetBlur = Math.pow(p, 1.2) * 28 // 0px -> 28px
+          targetOpacity = Math.max(0, 1 - p * 1.1) // 1.0 -> 0.0
         },
       })
     }, 60)
 
     const handleResize = () => {
-      const shift = getShiftAmount()
-      if (positionTrigger && trackRef.current) {
+      updateCanvasSize()
+      const isMobile = window.innerWidth <= 900
+      if (isMobile) {
+        targetCharBias = 0.5
+      } else if (positionTrigger) {
         const p = positionTrigger.progress
-        const currentX = (1 - 2 * p) * shift
-        gsap.set(trackRef.current, { x: currentX })
-      } else if (trackRef.current) {
-        gsap.set(trackRef.current, { x: shift })
+        targetCharBias = LANDING_BIAS - p * (LANDING_BIAS - ABOUT_BIAS)
+      } else {
+        targetCharBias = LANDING_BIAS
       }
-      renderFrame(currentFrameRef.current)
       ScrollTrigger.refresh()
     }
 
@@ -249,6 +266,7 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
 
     return () => {
       clearTimeout(timer)
+      if (animFrameId) cancelAnimationFrame(animFrameId)
       window.removeEventListener('resize', handleResize)
       if (positionTrigger) positionTrigger.kill()
       if (scrubTrigger) scrubTrigger.kill()
@@ -262,9 +280,7 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
       className={`${styles.container} ${className}`}
       aria-hidden="true"
     >
-      <div ref={trackRef} className={styles.canvasTrack}>
-        <canvas ref={canvasRef} className={styles.canvas} />
-      </div>
+      <canvas ref={canvasRef} className={styles.canvas} />
       <div ref={overlayLeftRef} className={styles.overlayLeft} />
       <div ref={overlayRightRef} className={styles.overlayRight} />
       <div className={styles.vignetteTopBottom} />
