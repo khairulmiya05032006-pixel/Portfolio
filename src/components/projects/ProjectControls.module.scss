@@ -1,0 +1,102 @@
+.controlsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.progressWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  max-width: 320px;
+}
+
+.progressBar {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c3aed, #c084fc);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+  transition: width 0.2s ease-out;
+}
+
+.progressText {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #c8a2ff;
+  white-space: nowrap;
+}
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(24, 18, 38, 0.65);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  color: #e2d9f3;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  user-select: none;
+
+  &:hover:not(:disabled) {
+    transform: scale(1.05);
+    background: rgba(124, 58, 237, 0.25);
+    border-color: #c8a2ff;
+    box-shadow: 0 0 16px rgba(167, 139, 250, 0.35);
+    color: #ffffff;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #cba7ff;
+    outline-offset: 3px;
+  }
+}
+
+@media (max-width: 640px) {
+  .controlsContainer {
+    margin-bottom: 1.25rem;
+  }
+
+  .progressWrapper {
+    max-width: 200px;
+  }
+}
