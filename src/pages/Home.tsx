@@ -2,7 +2,7 @@
 
 import { useSmoothScroll } from '@/hooks/useSmoothScroll'
 import { Navbar } from '@/components/Navbar'
-import { CharacterScene } from '@/components/CharacterScene'
+import { BackgroundScrollAnimation } from '@/components/BackgroundScrollAnimation'
 import { CustomCursor } from '@/components/CustomCursor'
 import { SocialLinks } from '@/components/SocialLinks'
 import { Landing } from '@/sections/Landing'
@@ -25,8 +25,8 @@ export function Home() {
       <Navbar />
       <SocialLinks />
 
-      {/* Fixed Full-Viewport 3D Rigged Developer Workstation */}
-      <CharacterScene />
+      {/* Fixed Full-Viewport Background Scroll Image Animation */}
+      <BackgroundScrollAnimation />
 
       {/* Foreground Sections with Intentional Spatial Corridors */}
       <main className={styles.mainContent}>
