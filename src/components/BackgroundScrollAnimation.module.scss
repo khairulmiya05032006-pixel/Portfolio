@@ -66,12 +66,7 @@
 }
 
 @media (max-width: 900px) {
-  .overlayLeft {
-    background: rgba(8, 4, 15, 0.76);
-    opacity: 1 !important;
-  }
-
-  .overlayRight {
-    display: none;
+  .container {
+    display: none !important;
   }
 }

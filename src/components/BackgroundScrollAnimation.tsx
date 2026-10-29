@@ -117,6 +117,12 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
 
     // High-performance RAF rendering loop with inertial damping
     const renderLoop = () => {
+      // Pause drawing on mobile since container is hidden
+      if (window.innerWidth <= 900) {
+        animFrameId = requestAnimationFrame(renderLoop)
+        return
+      }
+
       // Damped lerp for silky smooth 60/120fps motion
       currentFrame += (targetFrame - currentFrame) * 0.14
       currentCharBias += (targetCharBias - currentCharBias) * 0.08

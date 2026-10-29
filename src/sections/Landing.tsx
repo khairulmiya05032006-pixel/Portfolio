@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { portfolioConfig } from '@/config/portfolio'
 import styles from './Landing.module.scss'
 
@@ -19,6 +20,25 @@ export function Landing() {
           Khairul
           <span className={styles.accentText}>Miya</span>
         </h1>
+
+        {/* Mobile Character Image: Positioned gracefully between Name and Paragraph */}
+        <div className={styles.mobileImageContainer}>
+          <div className={styles.mobileImageWrapper}>
+            <Image
+              src="/images/projects/ezgif-frame-001.jpg"
+              alt="Khairul Miya - Developer Portrait"
+              width={640}
+              height={420}
+              priority
+              className={styles.mobileImage}
+            />
+            <div className={styles.mobileImageOverlay} />
+            <div className={styles.mobileImageBadge}>
+              <span className={styles.badgeDot} />
+              <span>Full-Stack Engineer</span>
+            </div>
+          </div>
+        </div>
 
         <p className={styles.tagline}>{profile.tagline}</p>
 

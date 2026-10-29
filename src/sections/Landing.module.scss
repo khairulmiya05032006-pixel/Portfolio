@@ -21,6 +21,7 @@
   max-width: 640px;
   pointer-events: auto;
   z-index: 2;
+  padding-left: 3rem;
 }
 
 // Right Spatial Corridor: Dedicated stage for the Developer Avatar
@@ -176,6 +177,11 @@
   margin-top: 0.25rem;
 }
 
+// Mobile-Only Hero Character: Hidden on desktop, visible on mobile
+.mobileImageContainer {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .landing {
     flex-direction: column;
@@ -183,11 +189,83 @@
     gap: 1.5rem;
     padding-top: 5.5rem;
   }
+
   .corridorLeft {
     flex: 1 1 100%;
     max-width: 100%;
+    padding-left: 0;
   }
+
   .corridorRight {
     display: none;
+  }
+
+  // Mobile Character Image placed between Name and Paragraph
+  .mobileImageContainer {
+    display: block;
+    width: 100%;
+    margin: 1.25rem 0 1.5rem 0;
+  }
+
+  .mobileImageWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 10;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(167, 139, 250, 0.28);
+    box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.7),
+      0 0 24px rgba(124, 58, 237, 0.22);
+    background: #0d0715;
+  }
+
+  .mobileImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+  }
+
+  .mobileImageOverlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(8, 4, 15, 0.75) 100%
+    );
+  }
+
+  .mobileImageBadge {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(12, 9, 22, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(167, 139, 250, 0.25);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #ddd6fe;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .badgeDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 8px #34d399;
   }
 }
