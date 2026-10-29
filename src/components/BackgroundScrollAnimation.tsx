@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-const TOTAL_FRAMES = 50
+const TOTAL_FRAMES = 40
 
 const getFramePath = (index: number) => {
   const frameNum = String(index + 1).padStart(3, '0')
@@ -22,7 +22,10 @@ interface BackgroundScrollAnimationProps {
 
 export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAnimationProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const overlayLeftRef = useRef<HTMLDivElement>(null)
+  const overlayRightRef = useRef<HTMLDivElement>(null)
 
   const imagesRef = useRef<(HTMLImageElement | null)[]>([])
   const isLoadedRef = useRef<boolean[]>([])
@@ -30,8 +33,9 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
 
   useEffect(() => {
     const container = containerRef.current
+    const track = trackRef.current
     const canvas = canvasRef.current
-    if (!container || !canvas) return
+    if (!container || !track || !canvas) return
 
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -40,7 +44,19 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     imagesRef.current = new Array(TOTAL_FRAMES).fill(null)
     isLoadedRef.current = new Array(TOTAL_FRAMES).fill(false)
 
-    // Render frame to canvas with responsive positioning
+    // Calculate horizontal shift amount for right/left corridor placement
+    const getShiftAmount = () => (window.innerWidth > 768 ? window.innerWidth * 0.15 : 0)
+
+    // Set initial position: Character on the RIGHT, text on the LEFT
+    const initialShift = getShiftAmount()
+    gsap.set(track, { x: initialShift })
+
+    if (overlayLeftRef.current && overlayRightRef.current) {
+      overlayLeftRef.current.style.opacity = '1'
+      overlayRightRef.current.style.opacity = '0'
+    }
+
+    // Render frame to canvas with full-bleed cover logic
     const renderFrame = (targetIndex: number) => {
       const cvs = canvasRef.current
       if (!cvs) return
@@ -94,9 +110,7 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
       } else {
         drawH = cvs.height
         drawW = cvs.height * imgRatio
-        // On desktop, bias slightly toward the right corridor where the developer avatar sits
-        const bias = window.innerWidth > 960 ? 0.65 : 0.5
-        offsetX = (cvs.width - drawW) * bias
+        offsetX = (cvs.width - drawW) / 2
       }
 
       ctx.clearRect(0, 0, cvs.width, cvs.height)
@@ -129,15 +143,48 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
       return
     }
 
-    // 3. Smooth scroll tracking and blur choreography
+    // 3. ScrollTrigger animations
+    let positionTrigger: ScrollTrigger | null = null
     let scrubTrigger: ScrollTrigger | null = null
     let blurTrigger: ScrollTrigger | null = null
 
     // Give DOM a microtask tick to ensure document height and section elements are ready
     const timer = setTimeout(() => {
+      const landingSection = document.getElementById('landing')
+      const aboutSection = document.getElementById('about')
       const careerSection = document.getElementById('career')
 
-      // A. Scrub frames across Home (#landing) through Education (#career)
+      // A. Smooth lateral transition: Character RIGHT (Landing) -> Character LEFT (About)
+      if (landingSection && aboutSection) {
+        positionTrigger = ScrollTrigger.create({
+          trigger: landingSection,
+          start: 'top top',
+          endTrigger: aboutSection,
+          end: 'center center',
+          scrub: 1.0,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const p = Math.max(0, Math.min(1, self.progress)) // 0 (Landing) -> 1 (About)
+            const shift = getShiftAmount()
+
+            // Interpolate smoothly: +shift (Right) -> -shift (Left)
+            const currentX = (1 - 2 * p) * shift
+            if (trackRef.current) {
+              gsap.set(trackRef.current, { x: currentX })
+            }
+
+            // Crossfade reading overlays:
+            // p = 0: overlayLeft = 1 (dark on left, clear on right)
+            // p = 1: overlayRight = 1 (clear on left, dark on right)
+            if (overlayLeftRef.current && overlayRightRef.current) {
+              overlayLeftRef.current.style.opacity = (1 - p).toFixed(3)
+              overlayRightRef.current.style.opacity = p.toFixed(3)
+            }
+          },
+        })
+      }
+
+      // B. Scrub frames across the scroll journey
       scrubTrigger = ScrollTrigger.create({
         trigger: document.documentElement,
         start: 'top top',
@@ -164,7 +211,7 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
         },
       })
 
-      // B. Smooth blur & fade out as user scrolls into and down past Education (#career)
+      // C. Smooth blur & fade out as user scrolls into and down past Education (#career)
       blurTrigger = ScrollTrigger.create({
         trigger: careerSection || '#career',
         start: 'top 60%',
@@ -186,7 +233,16 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     }, 60)
 
     const handleResize = () => {
+      const shift = getShiftAmount()
+      if (positionTrigger && trackRef.current) {
+        const p = positionTrigger.progress
+        const currentX = (1 - 2 * p) * shift
+        gsap.set(trackRef.current, { x: currentX })
+      } else if (trackRef.current) {
+        gsap.set(trackRef.current, { x: shift })
+      }
       renderFrame(currentFrameRef.current)
+      ScrollTrigger.refresh()
     }
 
     window.addEventListener('resize', handleResize, { passive: true })
@@ -194,6 +250,7 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     return () => {
       clearTimeout(timer)
       window.removeEventListener('resize', handleResize)
+      if (positionTrigger) positionTrigger.kill()
       if (scrubTrigger) scrubTrigger.kill()
       if (blurTrigger) blurTrigger.kill()
     }
@@ -205,8 +262,12 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
       className={`${styles.container} ${className}`}
       aria-hidden="true"
     >
-      <canvas ref={canvasRef} className={styles.canvas} />
-      <div className={styles.overlay} />
+      <div ref={trackRef} className={styles.canvasTrack}>
+        <canvas ref={canvasRef} className={styles.canvas} />
+      </div>
+      <div ref={overlayLeftRef} className={styles.overlayLeft} />
+      <div ref={overlayRightRef} className={styles.overlayRight} />
+      <div className={styles.vignetteTopBottom} />
     </div>
   )
 }
