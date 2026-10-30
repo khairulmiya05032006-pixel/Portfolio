@@ -20,9 +20,10 @@
 
 .eyebrow {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent, #a78bfa);
   margin-bottom: 0.75rem;
@@ -30,8 +31,10 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6vw, 4rem);
-  line-height: 0.95;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0 0 1rem;
   color: #ffffff;
@@ -42,7 +45,9 @@
 }
 
 .subtitle {
+  font-family: var(--font-body);
   font-size: 1rem;
+  font-weight: 400;
   line-height: 1.6;
   color: var(--color-muted, #9e97a8);
 }
@@ -118,25 +123,28 @@
 }
 
 .period {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
   color: var(--color-accent, #a78bfa);
   font-weight: 600;
 }
 
 .typeBadge {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
   background: rgba(255, 255, 255, 0.06);
-  padding: 0.2rem 0.5rem;
+  padding: 0.2rem 0.55rem;
   border-radius: 0.3rem;
   color: var(--color-muted, #9e97a8);
 }
 
 .roleTitle {
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   color: #ffffff;
   margin: 0 0 0.35rem;
 }
@@ -144,12 +152,15 @@
 .companyTitle {
   font-size: 1rem;
   font-weight: 500;
+  line-height: 1.35;
   color: #c084fc;
   margin: 0 0 1rem;
 }
 
 .description {
+  font-family: var(--font-body);
   font-size: 0.95rem;
+  font-weight: 400;
   line-height: 1.6;
   color: var(--color-text, #eee8f5);
   margin-bottom: 1.25rem;
@@ -163,9 +174,11 @@
 }
 
 .techBadge {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.25rem 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.65rem;
   background: rgba(167, 139, 250, 0.08);
   border: 1px solid rgba(167, 139, 250, 0.2);
   border-radius: 0.35rem;

@@ -27,9 +27,10 @@
 
 .eyebrow {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-accent, #a78bfa);
   margin-bottom: 0.75rem;
@@ -37,8 +38,10 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6vw, 4rem);
-  line-height: 0.95;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0 0 1rem;
   color: #ffffff;
@@ -49,7 +52,9 @@
 }
 
 .subtitle {
+  font-family: var(--font-body);
   font-size: 1rem;
+  font-weight: 400;
   line-height: 1.6;
   color: var(--color-muted, #9e97a8);
   margin: 0;
@@ -85,25 +90,30 @@
 
 .badge {
   display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-accent, #a78bfa);
   background: rgba(167, 139, 250, 0.1);
-  padding: 0.25rem 0.65rem;
+  padding: 0.28rem 0.7rem;
   border-radius: 0.4rem;
 }
 
 .cardTitle {
-  font-size: 1.45rem;
-  font-weight: 700;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   color: #ffffff;
   margin: 0 0 0.85rem;
 }
 
 .cardDesc {
+  font-family: var(--font-body);
   font-size: 0.95rem;
+  font-weight: 400;
   line-height: 1.6;
   color: var(--color-muted, #9e97a8);
   margin-bottom: 1.5rem;
@@ -116,9 +126,11 @@
 }
 
 .tag {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 0.25rem 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.65rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0.35rem;
