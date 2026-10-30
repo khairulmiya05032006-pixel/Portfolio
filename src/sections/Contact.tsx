@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { portfolioConfig } from '@/config/portfolio'
+import { SocialIcon } from '@/components/SocialIcon'
 import styles from './Contact.module.scss'
 
 export function Contact() {
@@ -72,7 +73,8 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className={styles.socialPill}
                 >
-                  {s.platform} <span aria-hidden="true">↗</span>
+                  <SocialIcon platform={s.platform} size={14} />
+                  <span>{s.platform}</span> <span aria-hidden="true">↗</span>
                 </a>
               ))}
             </div>

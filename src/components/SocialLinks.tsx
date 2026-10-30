@@ -1,6 +1,7 @@
 'use client'
 
 import { portfolioConfig } from '@/config/portfolio'
+import { SocialIcon } from './SocialIcon'
 import styles from './SocialLinks.module.scss'
 
 export function SocialLinks() {
@@ -18,8 +19,9 @@ export function SocialLinks() {
               rel="noopener noreferrer"
               className={styles.link}
               aria-label={s.platform}
+              title={s.platform}
             >
-              <span>{s.platform.slice(0, 2).toUpperCase()}</span>
+              <SocialIcon platform={s.platform} className={styles.icon} size={17} />
             </a>
           </li>
         ))}
