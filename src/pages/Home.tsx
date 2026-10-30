@@ -13,6 +13,7 @@ import { Work } from '@/sections/Work'
 import { TechStack } from '@/sections/TechStack'
 import { CallToAction } from '@/sections/CallToAction'
 import { Contact } from '@/sections/Contact'
+import { Footer } from '@/components/Footer'
 import styles from './Home.module.scss'
 
 export function Home() {
@@ -40,14 +41,7 @@ export function Home() {
         <Contact />
       </main>
 
-      <footer className={styles.footer}>
-        <div className={styles.footerInner}>
-          <p>© {new Date().getFullYear()} Khairul Miya.</p>
-          <a href="#landing" className={styles.backToTop}>
-            Back to top ↑
-          </a>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
