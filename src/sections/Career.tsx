@@ -1,6 +1,7 @@
 'use client'
 
 import { portfolioConfig } from '@/config/portfolio'
+import { MobileCurvedSlider } from '@/components/career/MobileCurvedSlider'
 import styles from './Career.module.scss'
 
 export function Career() {
@@ -21,7 +22,8 @@ export function Career() {
         </p>
       </div>
 
-      <div className={styles.timeline}>
+      {/* Desktop Timeline (Preserved 100% on desktop screens > 768px) */}
+      <div className={styles.desktopTimeline}>
         {career.map((item) => (
           <div key={item.id} className={styles.timelineItem}>
             <div className={styles.rail}>
@@ -49,6 +51,11 @@ export function Career() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Mobile-Only 3D Curved Auto-Scrolling Slider (<= 768px) */}
+      <div className={styles.mobileSliderWrapper}>
+        <MobileCurvedSlider career={career} />
       </div>
     </section>
   )
