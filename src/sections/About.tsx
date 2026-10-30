@@ -30,27 +30,6 @@ export function About() {
           </p>
         </div>
 
-        <div className={styles.focusCards}>
-          <div className={styles.card}>
-            <h3>Full-Stack Development</h3>
-            <p>
-              Building end-to-end web applications with Node.js, Express, and MySQL databases.
-            </p>
-          </div>
-          <div className={styles.card}>
-            <h3>Frontend & Interaction</h3>
-            <p>
-              Crafting responsive interfaces using modern React, Next.js, and interactive animations.
-            </p>
-          </div>
-          <div className={styles.card}>
-            <h3>Computer Science</h3>
-            <p>
-              Strengthening core fundamentals in data structures, algorithms, and software engineering.
-            </p>
-          </div>
-        </div>
-
         <div className={styles.signatureRow}>
           <div>
             <span className={styles.sigLabel}>Location</span>

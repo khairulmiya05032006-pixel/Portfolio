@@ -43,7 +43,7 @@
 }
 
 .brandDot {
-  color: #3b5bfd;
+  color: var(--color-accent, #a78bfa);
   margin-left: 1px;
 }
 
@@ -122,19 +122,17 @@
   font-family: var(--font-sans);
   font-size: clamp(4.8rem, 16vw, 19rem);
   font-weight: 900;
-  color: #171720;
+  color: #1a1726;
   text-transform: lowercase;
   cursor: pointer;
   transition: color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              text-shadow 0.22s ease;
+              transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, color;
 
   &:hover,
   &.letterWave {
-    color: #3b5bfd;
+    color: var(--color-accent, #a78bfa);
     transform: translateY(-8px);
-    text-shadow: 0 0 45px rgba(59, 91, 253, 0.45);
   }
 }
 
