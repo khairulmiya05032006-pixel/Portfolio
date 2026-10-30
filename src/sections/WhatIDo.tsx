@@ -1,6 +1,7 @@
 'use client'
 
 import { portfolioConfig } from '@/config/portfolio'
+import { MobileVerticalSlider } from '@/components/whatido/MobileVerticalSlider'
 import styles from './WhatIDo.module.scss'
 
 export function WhatIDo() {
@@ -18,7 +19,8 @@ export function WhatIDo() {
         </p>
       </div>
 
-      <div className={styles.grid}>
+      {/* Desktop Grid Layout (Preserved 100% on desktop screens > 800px) */}
+      <div className={styles.desktopGrid}>
         {services.map((item) => (
           <div key={item.id} className={styles.card}>
             <div className={styles.cardHeader}>
@@ -35,6 +37,11 @@ export function WhatIDo() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Mobile-Only Vertical Card Slider (<= 800px) */}
+      <div className={styles.mobileSliderWrapper}>
+        <MobileVerticalSlider services={services} />
       </div>
     </section>
   )
