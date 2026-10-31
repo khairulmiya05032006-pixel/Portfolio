@@ -62,12 +62,17 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
     updateCanvasSize()
 
     // -------------------------------------------------------------------------
-    // 2. High-Performance Frame Drawing (Aspect Ratio Contain with Zoom)
+    // 2. High-Performance Frame Drawing (Full-Width to Final Centered Portrait)
     // -------------------------------------------------------------------------
     let lastRenderedFrame = -1
-    let lastRenderedZoom = -1
+    let lastRenderedProgress = -1
+    let lastRenderedEntrance = -1
 
-    const drawFrame = (frameIndex: number, zoomLevel: number) => {
+    const drawFrame = (
+      frameIndex: number,
+      progress: number,
+      entranceZoom: number = 1.0
+    ) => {
       const ctx = canvas.getContext('2d')
       if (!ctx || canvas.width === 0 || canvas.height === 0) return
 
@@ -94,12 +99,34 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       const cH = canvas.height
       const imgW = img.naturalWidth || 1080
       const imgH = img.naturalHeight || 1920
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
 
-      // Aspect ratio contain with centered zoom origin
-      const baseScale = Math.min(cW / imgW, cH / imgH)
-      const finalScale = baseScale * zoomLevel
-      const drawW = imgW * finalScale
-      const drawH = imgH * finalScale
+      // 1. Initial State (progress = 0):
+      // Occupies the ENTIRE mobile viewport width, extending from extreme left to extreme right
+      const initialW = cW * entranceZoom
+      const initialH = initialW * (imgH / imgW)
+
+      // 2. Final State (progress = 1):
+      // Exact dimensions matching Screenshot 2 (centered portrait, width ~250px CSS, constrained by height)
+      let finalW = Math.min(250 * dpr, cW * 0.68)
+      let finalH = finalW * (imgH / imgW)
+      if (finalH > cH * 0.88) {
+        finalH = cH * 0.88
+        finalW = finalH * (imgW / imgH)
+      }
+
+      // 3. Smooth Transition from Full-Width to Final Centered Portrait:
+      // Uses smoothstep easing so the transition starts smoothly from full-width
+      // and glides gracefully into the exact final dimensions
+      const t = Math.max(0, Math.min(1, progress))
+      const transitionEase = t * t * (3 - 2 * t)
+
+      const drawW = initialW + (finalW - initialW) * transitionEase
+      const drawH = initialH + (finalH - initialH) * transitionEase
+
+      // Symmetrically centered horizontally and vertically
+      // At progress = 0: drawW = cW -> drawX = 0 (spans 0 to cW)
+      // At progress = 1: drawW = finalW -> drawX = (cW - finalW) / 2 (centered)
       const drawX = (cW - drawW) / 2
       const drawY = (cH - drawH) / 2
 
@@ -107,7 +134,8 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       ctx.drawImage(img, drawX, drawY, drawW, drawH)
 
       lastRenderedFrame = frameIndex
-      lastRenderedZoom = zoomLevel
+      lastRenderedProgress = progress
+      lastRenderedEntrance = entranceZoom
     }
 
     // -------------------------------------------------------------------------
@@ -129,8 +157,8 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       // Start the subtle zoom-out entrance animation
       entranceStartTime = performance.now()
 
-      // Immediately render frame 037 at starting zoom 1.07
-      drawFrame(startFrameIndex, 1.07)
+      // Immediately render frame 037 at starting full-width
+      drawFrame(startFrameIndex, 0, 1.05)
 
       // Preload subsequent frames in priority order of reverse scroll (35 down to 0)
       for (let i = startFrameIndex - 1; i >= 0; i--) {
@@ -201,15 +229,15 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       if (isDisposed) return
 
       if (isVisible) {
-        // A. Calculate initial zoom-out entrance (1.07 -> 1.00 over 1050ms)
+        // A. Calculate initial zoom-out entrance (1.05 -> 1.00 over 850ms)
         let entranceZoom = 1.0
         if (isEntranceActive && entranceStartTime > 0) {
           const elapsed = timestamp - entranceStartTime
-          const duration = 1050
+          const duration = 850
           if (elapsed < duration) {
             const t = elapsed / duration
             const ease = 1 - Math.pow(1 - t, 3)
-            entranceZoom = 1.07 - ease * 0.07
+            entranceZoom = 1.05 - ease * 0.05
           } else {
             entranceZoom = 1.0
             isEntranceActive = false
@@ -225,29 +253,24 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
 
         const p = Math.max(0, Math.min(1, currentProgress))
 
-        // C. Calculate scroll-driven zoom-in (1.00 -> 1.04)
-        const scrollZoom = 1.0 + p * 0.04
-
-        // D. Combine zoom factors
-        const totalZoom = entranceZoom * scrollZoom
-
-        // E. REVERSE frame mapping:
-        // 0% scroll -> frame index 36 (ezgif-frame-037.jpg: horizontal particle wave)
-        // 100% scroll -> frame index 0 (ezgif-frame-001.jpg: fully revealed portrait)
+        // C. REVERSE frame mapping:
+        // 0% scroll -> frame index 36 (processed-ezgif-frame-037.png: horizontal particle wave)
+        // 100% scroll -> frame index 0 (processed-ezgif-frame-001.png: fully revealed portrait)
         const frameIndex = Math.min(
           TOTAL_FRAMES - 1,
           Math.max(0, Math.round((1 - p) * (TOTAL_FRAMES - 1)))
         )
 
-        // Draw only when frame index or zoom changed
+        // Draw only when frame index, progress, or entrance zoom changed
         if (
           frameIndex !== lastRenderedFrame ||
-          Math.abs(totalZoom - lastRenderedZoom) > 0.0005
+          Math.abs(p - lastRenderedProgress) > 0.0008 ||
+          Math.abs(entranceZoom - lastRenderedEntrance) > 0.0008
         ) {
-          drawFrame(frameIndex, totalZoom)
+          drawFrame(frameIndex, p, entranceZoom)
         }
 
-        // F. Fade out scroll indicator during scroll
+        // D. Fade out scroll indicator during scroll
         if (indicatorRef.current) {
           const indOpacity = Math.max(0, 1 - p * 3.5)
           indicatorRef.current.style.opacity = `${indOpacity}`
@@ -266,6 +289,12 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       updateCanvasSize()
       updateScrollProgress()
       lastRenderedFrame = -1 // Force redraw
+      const p = Math.max(0, Math.min(1, currentProgress))
+      const frameIndex = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.max(0, Math.round((1 - p) * (TOTAL_FRAMES - 1)))
+      )
+      drawFrame(frameIndex, p, 1.0)
     }
 
     window.addEventListener('resize', handleResize, { passive: true })
