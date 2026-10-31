@@ -15,6 +15,17 @@ export function useSmoothScroll() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) return
 
+    // On mobile devices (<= 900px), preserve 100% native touch scrolling to prevent sticky jitter and touch locking
+    if (typeof window !== 'undefined' && window.innerWidth <= 900) {
+      const handleNativeScroll = () => {
+        ScrollTrigger.update()
+      }
+      window.addEventListener('scroll', handleNativeScroll, { passive: true })
+      return () => {
+        window.removeEventListener('scroll', handleNativeScroll)
+      }
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -22,7 +33,7 @@ export function useSmoothScroll() {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
+      touchMultiplier: 1,
     })
 
     lenisRef.current = lenis

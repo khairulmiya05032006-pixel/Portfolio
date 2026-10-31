@@ -7,7 +7,7 @@ import styles from './MobileCinematicHero.module.scss'
 const TOTAL_FRAMES = 37
 
 // Frames: 001.jpg (ending complete portrait) to 037.jpg (starting particle wave)
-// Available in both /mobile_fir_image/ and /mobile_fit_image/
+// Available in /mobile_fir_image/ and /mobile_fit_image/
 const getFramePath = (index: number) => {
   const frameNum = String(index + 1).padStart(3, '0')
   return `/mobile_fir_image/ezgif-frame-${frameNum}.jpg`
@@ -20,12 +20,11 @@ interface MobileCinematicHeroProps {
 export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
   const runwayRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
 
   const imagesRef = useRef<(HTMLImageElement | null)[]>([])
   const isLoadedRef = useRef<boolean[]>([])
-  const [isReady, setIsReady] = useState(false)
+  const [, setIsReady] = useState(false)
 
   useEffect(() => {
     // Exclusively mobile implementation (<= 900px)
@@ -52,9 +51,9 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       if (!canvas) return
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
       const rect = canvas.getBoundingClientRect()
-      const w = Math.round((rect.width || window.innerWidth) * dpr)
-      const h = Math.round((rect.height || window.innerHeight) * dpr)
-      if (canvas.width !== w || canvas.height !== h) {
+      const w = Math.round(rect.width * dpr)
+      const h = Math.round(rect.height * dpr)
+      if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
         canvas.width = w
         canvas.height = h
       }
@@ -155,10 +154,10 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
     const updateScrollProgress = () => {
       if (!runway) return
       const rect = runway.getBoundingClientRect()
-      const windowH = window.innerHeight || 800
+      const viewportH = window.visualViewport?.height || window.innerHeight || 800
 
-      // Sticky runway height: runway.height - windowH
-      const totalDistance = rect.height - windowH
+      // Runway scrollable distance
+      const totalDistance = rect.height - viewportH
       if (totalDistance <= 0) return
 
       const scrolled = -rect.top
@@ -201,7 +200,6 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
           const duration = 1050
           if (elapsed < duration) {
             const t = elapsed / duration
-            // Smooth cubic ease-out
             const ease = 1 - Math.pow(1 - t, 3)
             entranceZoom = 1.07 - ease * 0.07
           } else {
@@ -212,7 +210,7 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
 
         // B. Smooth progress damping for cinematic scrubbing
         if (!prefersReducedMotion) {
-          currentProgress += (targetProgress - currentProgress) * 0.22
+          currentProgress += (targetProgress - currentProgress) * 0.24
         } else {
           currentProgress = targetProgress
         }
@@ -241,18 +239,9 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
           drawFrame(frameIndex, totalZoom)
         }
 
-        // F. Update typography overlay opacity based on scroll progress
-        if (contentRef.current) {
-          // Typography gently transitions out during initial scroll so reconstruction is prominent
-          const contentOpacity = Math.max(0, 1 - p * 3.2)
-          const contentTranslate = -p * 24
-          contentRef.current.style.opacity = `${contentOpacity}`
-          contentRef.current.style.transform = `translate3d(0, ${contentTranslate}px, 0)`
-          contentRef.current.style.pointerEvents = contentOpacity < 0.1 ? 'none' : 'auto'
-        }
-
+        // F. Fade out scroll indicator during scroll
         if (indicatorRef.current) {
-          const indOpacity = Math.max(0, 1 - p * 4.0)
+          const indOpacity = Math.max(0, 1 - p * 3.5)
           indicatorRef.current.style.opacity = `${indOpacity}`
         }
       }
@@ -288,20 +277,21 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
   return (
     <div ref={runwayRef} className={styles.mobileRunway}>
       <div className={styles.stickyStage}>
-        {/* Canvas displaying Reverse Scroll Animation */}
-        <canvas ref={canvasRef} className={styles.canvas} />
-
-        {/* Hero Content Overlay (Visible at top, fades out smoothly as scroll reconstruction begins) */}
-        <div ref={contentRef} className={styles.heroContent}>
+        {/* Top Header Block: Name & Subtitle */}
+        <div className={styles.headerBlock}>
           <h1 className={styles.headline}>
-            Khairul
-            <span className={styles.accentText}>Miya</span>
+            Khairul <span className={styles.accentText}>Miya</span>
           </h1>
-
           <p className={styles.tagline}>{profile.tagline}</p>
+        </div>
 
-          <p className={styles.bio}>{profile.bio}</p>
+        {/* Dedicated Center Area: Canvas Particle-to-Portrait Animation */}
+        <div className={styles.canvasContainer}>
+          <canvas ref={canvasRef} className={styles.canvas} />
+        </div>
 
+        {/* Bottom Action Block: CTAs, Stats & Scroll Indicator */}
+        <div className={styles.actionBlock}>
           <div className={styles.ctaGroup}>
             <a href="#work" className={styles.primaryBtn}>
               Explore Work <span aria-hidden="true">↓</span>
@@ -326,14 +316,14 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
               <span className={styles.statLabel}>Development Focus</span>
             </div>
           </div>
-        </div>
 
-        {/* Subtle Scroll Indicator */}
-        <div ref={indicatorRef} className={styles.scrollIndicator}>
-          <span className={styles.scrollText}>Scroll to reconstruct portrait</span>
-          <span className={styles.scrollArrow} aria-hidden="true">
-            ↓
-          </span>
+          {/* Subtle Scroll Indicator */}
+          <div ref={indicatorRef} className={styles.scrollIndicator}>
+            <span className={styles.scrollText}>Scroll to reconstruct portrait</span>
+            <span className={styles.scrollArrow} aria-hidden="true">
+              ↓
+            </span>
+          </div>
         </div>
       </div>
     </div>

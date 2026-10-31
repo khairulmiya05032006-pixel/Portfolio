@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 /**
  * Mobile-Only Scroll Reveals Hook
  * Creates smooth, subtle, scroll-triggered entrance animations for mobile viewports (<= 900px).
+ * Leaves content visible and accessible without creating zero-opacity blank screens.
  * Leaves desktop ( > 900px ) 100% untouched.
  */
 export function useMobileScrollReveals() {
@@ -18,22 +19,22 @@ export function useMobileScrollReveals() {
     gsap.registerPlugin(ScrollTrigger)
 
     const ctx = gsap.context(() => {
-      // 1. About section reveal
+      // 1. About section reveal: subtle upward settle without blanking out content
       const aboutSection = document.getElementById('about')
       if (aboutSection) {
         const aboutCard = aboutSection.querySelector('[class*="corridorRight"]')
         if (aboutCard) {
           gsap.fromTo(
             aboutCard,
-            { y: 35, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.85,
-              ease: 'power3.out',
+              duration: 0.65,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: aboutSection,
-                start: 'top 85%',
+                start: 'top 95%',
                 once: true,
               },
             }
@@ -49,15 +50,15 @@ export function useMobileScrollReveals() {
         if (header) {
           gsap.fromTo(
             header,
-            { y: 30, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
-              ease: 'power3.out',
+              duration: 0.6,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: whatSection,
-                start: 'top 85%',
+                start: 'top 92%',
                 once: true,
               },
             }
@@ -66,16 +67,16 @@ export function useMobileScrollReveals() {
         if (slider) {
           gsap.fromTo(
             slider,
-            { y: 35, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.9,
-              delay: 0.12,
-              ease: 'power3.out',
+              duration: 0.65,
+              delay: 0.08,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: whatSection,
-                start: 'top 80%',
+                start: 'top 88%',
                 once: true,
               },
             }
@@ -91,15 +92,15 @@ export function useMobileScrollReveals() {
         if (header) {
           gsap.fromTo(
             header,
-            { y: 30, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
-              ease: 'power3.out',
+              duration: 0.6,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: careerSection,
-                start: 'top 85%',
+                start: 'top 92%',
                 once: true,
               },
             }
@@ -108,16 +109,16 @@ export function useMobileScrollReveals() {
         if (slider) {
           gsap.fromTo(
             slider,
-            { y: 35, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.9,
-              delay: 0.12,
-              ease: 'power3.out',
+              duration: 0.65,
+              delay: 0.08,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: careerSection,
-                start: 'top 80%',
+                start: 'top 88%',
                 once: true,
               },
             }
@@ -125,7 +126,7 @@ export function useMobileScrollReveals() {
         }
       }
 
-      // 4. Selected Projects (Work) mobile cards staggered reveal
+      // 4. Selected Projects (Work) mobile cards reveal
       const workSection = document.getElementById('work')
       if (workSection) {
         const header = workSection.querySelector('[class*="mobileWrapper"] [class*="headerContainer"]')
@@ -133,15 +134,15 @@ export function useMobileScrollReveals() {
         if (header) {
           gsap.fromTo(
             header,
-            { y: 30, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
-              ease: 'power3.out',
+              duration: 0.6,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: workSection,
-                start: 'top 85%',
+                start: 'top 92%',
                 once: true,
               },
             }
@@ -150,17 +151,17 @@ export function useMobileScrollReveals() {
         if (cards && cards.length > 0) {
           gsap.fromTo(
             cards,
-            { y: 35, opacity: 0, scale: 0.96 },
+            { y: 25, opacity: 0.85, scale: 0.98 },
             {
               y: 0,
               opacity: 1,
               scale: 1,
-              duration: 0.75,
-              stagger: 0.12,
-              ease: 'power3.out',
+              duration: 0.6,
+              stagger: 0.08,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: workSection.querySelector('[class*="mobileGallery"]') || workSection,
-                start: 'top 82%',
+                start: 'top 88%',
                 once: true,
               },
             }
@@ -176,15 +177,15 @@ export function useMobileScrollReveals() {
         if (header) {
           gsap.fromTo(
             header,
-            { y: 30, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
-              ease: 'power3.out',
+              duration: 0.6,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: skillsSection,
-                start: 'top 85%',
+                start: 'top 92%',
                 once: true,
               },
             }
@@ -193,16 +194,16 @@ export function useMobileScrollReveals() {
         if (rows && rows.length > 0) {
           gsap.fromTo(
             rows,
-            { y: 25, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.65,
-              stagger: 0.08,
-              ease: 'power3.out',
+              duration: 0.5,
+              stagger: 0.06,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: skillsSection,
-                start: 'top 80%',
+                start: 'top 88%',
                 once: true,
               },
             }
@@ -218,15 +219,15 @@ export function useMobileScrollReveals() {
         if (infoCol) {
           gsap.fromTo(
             infoCol,
-            { y: 30, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
-              ease: 'power3.out',
+              duration: 0.6,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: contactSection,
-                start: 'top 85%',
+                start: 'top 92%',
                 once: true,
               },
             }
@@ -235,16 +236,16 @@ export function useMobileScrollReveals() {
         if (formCol) {
           gsap.fromTo(
             formCol,
-            { y: 30, opacity: 0 },
+            { y: 20, opacity: 0.88 },
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
-              delay: 0.12,
-              ease: 'power3.out',
+              duration: 0.6,
+              delay: 0.08,
+              ease: 'power2.out',
               scrollTrigger: {
                 trigger: contactSection,
-                start: 'top 80%',
+                start: 'top 88%',
                 once: true,
               },
             }
