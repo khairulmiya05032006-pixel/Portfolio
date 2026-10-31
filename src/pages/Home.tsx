@@ -6,7 +6,6 @@ import { BackgroundScrollAnimation } from '@/components/BackgroundScrollAnimatio
 import { CustomCursor } from '@/components/CustomCursor'
 import { SocialLinks } from '@/components/SocialLinks'
 import { Landing } from '@/sections/Landing'
-import { MobileCinematicPortrait } from '@/components/portrait/MobileCinematicPortrait'
 import { About } from '@/sections/About'
 import { WhatIDo } from '@/sections/WhatIDo'
 import { Career } from '@/sections/Career'
@@ -33,8 +32,6 @@ export function Home() {
       {/* Foreground Sections with Intentional Spatial Corridors */}
       <main className={styles.mainContent}>
         <Landing />
-        {/* Mobile-Only Scroll-Driven Cinematic Portrait Animation */}
-        <MobileCinematicPortrait />
         <About />
         <WhatIDo />
         <Career />
