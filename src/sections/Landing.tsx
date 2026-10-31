@@ -1,7 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import { portfolioConfig } from '@/config/portfolio'
+import { ParticlePortrait } from '@/components/portrait/ParticlePortrait'
 import styles from './Landing.module.scss'
 
 export function Landing() {
@@ -16,18 +16,10 @@ export function Landing() {
           <span className={styles.accentText}>Miya</span>
         </h1>
 
-        {/* Mobile Character Image: Positioned gracefully between Name and Paragraph */}
+        {/* Mobile Interactive 3D Particle Portrait: Rendered between Name and Paragraph */}
         <div className={styles.mobileImageContainer}>
           <div className={styles.mobileImageWrapper}>
-            <Image
-              src="/mobile_fit_image/KM.jpeg"
-              alt="Khairul Miya"
-              width={600}
-              height={750}
-              priority
-              className={styles.mobileImage}
-            />
-            <div className={styles.mobileImageOverlay} />
+            <ParticlePortrait imageSrc="/mobile_fit_image/KM.jpeg" />
           </div>
         </div>
 
