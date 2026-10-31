@@ -15,6 +15,16 @@
   pointer-events: none;
 }
 
+// Desktop Layout container: Preserved 100% on desktop screens
+.desktopLayout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: clamp(2.5rem, 6vw, 7rem);
+  pointer-events: none;
+}
+
 // Left Spatial Corridor: Typography & CTAs
 .corridorLeft {
   flex: 0 1 54%;
@@ -184,139 +194,20 @@
   margin-top: 0.25rem;
 }
 
-// Mobile-Only Personal Portrait: Strictly hidden on desktop
-.mobilePortraitWrapper {
-  display: none;
-}
-
+// -----------------------------------------------------------------------------
+// Mobile Breakpoint (<= 900px)
+// -----------------------------------------------------------------------------
 @media (max-width: 900px) {
   .landing {
-    flex-direction: column;
-    justify-content: center;
-    gap: 1.25rem;
-    padding-top: max(5.5rem, calc(64px + 1.5rem));
-    padding-bottom: 2.5rem;
-  }
-
-  .corridorLeft {
-    flex: 1 1 100%;
-    max-width: 100%;
-    padding-left: 0;
-  }
-
-  .corridorRight {
-    display: none;
-  }
-
-  // 1. Name Heading entrance
-  .headline {
-    margin: 0 0 0.4rem 0;
-    animation: mobileHeadingReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  // 2. Mobile Personal Portrait
-  .mobilePortraitWrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0.85rem auto 1.35rem auto;
-    pointer-events: none;
-  }
-
-  .mobilePortraitContainer {
-    position: relative;
-    width: 100%;
-    max-width: 260px; // Approximately 240-280px editorial portrait sizing
-    aspect-ratio: 9 / 16;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
-    overflow: hidden;
-    will-change: transform, opacity;
-    animation: mobilePortraitReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.25s backwards;
-  }
-
-  .mobilePortraitImage {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; // Preserves complete facial identity, hair, and shoulders
     display: block;
-    user-select: none;
-    pointer-events: none;
-    filter: brightness(1.04) contrast(1.02);
+    padding: 0;
+    margin: 0;
+    min-height: 0;
+    pointer-events: auto;
   }
 
-  // 3. Professional Title & Description entrance
-  .tagline {
-    animation: mobileFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
-  }
-
-  .bio {
-    animation: mobileFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.65s backwards;
-    max-width: 100%;
-  }
-
-  // 4. Action Buttons entrance
-  .ctaGroup {
-    animation: mobileFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s backwards;
-  }
-
-  // 5. Statistics Row entrance
-  .statsRow {
-    animation: mobileFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.95s backwards;
-  }
-}
-
-@keyframes mobileHeadingReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes mobilePortraitReveal {
-  0% {
-    opacity: 0;
-    transform: translateY(22px) scale(0.97);
-    clip-path: inset(6% 0 6% 0 round 16px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    clip-path: inset(0 0 0% 0 round 0px);
-  }
-}
-
-@keyframes mobileFadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .headline,
-  .mobilePortraitContainer,
-  .tagline,
-  .bio,
-  .ctaGroup,
-  .statsRow {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-    clip-path: none !important;
+  // Hide the desktop corridor layout on mobile devices
+  .desktopLayout {
+    display: none;
   }
 }
