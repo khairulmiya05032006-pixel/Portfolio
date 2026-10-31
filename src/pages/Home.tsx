@@ -1,12 +1,12 @@
 'use client'
 
 import { useSmoothScroll } from '@/hooks/useSmoothScroll'
+import { useMobileScrollReveals } from '@/hooks/useMobileScrollReveals'
 import { Navbar } from '@/components/Navbar'
 import { BackgroundScrollAnimation } from '@/components/BackgroundScrollAnimation'
 import { CustomCursor } from '@/components/CustomCursor'
 import { SocialLinks } from '@/components/SocialLinks'
 import { Landing } from '@/sections/Landing'
-import { MobileCinematicPortrait } from '@/components/portrait/MobileCinematicPortrait'
 import { About } from '@/sections/About'
 import { WhatIDo } from '@/sections/WhatIDo'
 import { Career } from '@/sections/Career'
@@ -20,6 +20,8 @@ import styles from './Home.module.scss'
 export function Home() {
   // Initialize Lenis + GSAP ScrollTrigger synchronization
   useSmoothScroll()
+  // Initialize mobile-only scroll-triggered section reveals
+  useMobileScrollReveals()
 
   return (
     <div className={styles.homeContainer}>
@@ -33,8 +35,6 @@ export function Home() {
       {/* Foreground Sections with Intentional Spatial Corridors */}
       <main className={styles.mainContent}>
         <Landing />
-        {/* Mobile-Only Scroll-Driven Cinematic Portrait Animation */}
-        <MobileCinematicPortrait />
         <About />
         <WhatIDo />
         <Career />
