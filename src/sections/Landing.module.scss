@@ -184,11 +184,6 @@
   margin-top: 0.25rem;
 }
 
-// Mobile-Only Hero Character: Hidden on desktop, visible on mobile
-.mobileImageContainer {
-  display: none;
-}
-
 @media (max-width: 900px) {
   .landing {
     flex-direction: column;
@@ -205,23 +200,5 @@
 
   .corridorRight {
     display: none;
-  }
-
-  // Mobile Character Image placed between Name and Paragraph (Card removed, WebGL particle portrait)
-  .mobileImageContainer {
-    display: block;
-    width: 100%;
-    margin: 1rem 0 1.25rem 0;
-  }
-
-  .mobileImageWrapper {
-    position: relative;
-    width: 100%;
-    max-width: 340px;
-    margin: 0 auto;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    border-radius: 0;
   }
 }
