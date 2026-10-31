@@ -76,9 +76,9 @@
   .canvasContainer {
     position: relative;
     width: 100%;
-    max-width: 250px;
-    max-height: 42svh;
-    max-height: 42vh;
+    max-width: clamp(230px, 60vw, 280px);
+    max-height: 44svh;
+    max-height: 44vh;
     aspect-ratio: 9 / 16;
     margin: 0.5rem auto;
     display: flex;

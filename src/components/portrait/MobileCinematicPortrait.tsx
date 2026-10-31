@@ -3,12 +3,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './MobileCinematicPortrait.module.scss'
 
-const TOTAL_FRAMES = 40
+const TOTAL_FRAMES = 37
 
-// Manifest for the 40 chronologically ordered frames from mobile_fir_image
+// Manifest for the 37 chronologically ordered frames from mobile_fit_image
 const getFramePath = (index: number) => {
   const frameNum = String(index + 1).padStart(3, '0')
-  return `/mobile_fir_image/ezgif-frame-${frameNum}.jpg`
+  return `/mobile_fit_image/processed-ezgif-frame-${frameNum}.png`
 }
 
 export function MobileCinematicPortrait() {

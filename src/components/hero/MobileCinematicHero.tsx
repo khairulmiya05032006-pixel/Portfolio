@@ -6,11 +6,11 @@ import styles from './MobileCinematicHero.module.scss'
 
 const TOTAL_FRAMES = 37
 
-// Frames: 001.jpg (ending complete portrait) to 037.jpg (starting particle wave)
-// Available in /mobile_fir_image/ and /mobile_fit_image/
+// Frames: 001.png (ending complete portrait) to 037.png (starting particle wave)
+// Located in /mobile_fit_image/
 const getFramePath = (index: number) => {
   const frameNum = String(index + 1).padStart(3, '0')
-  return `/mobile_fir_image/ezgif-frame-${frameNum}.jpg`
+  return `/mobile_fit_image/processed-ezgif-frame-${frameNum}.png`
 }
 
 interface MobileCinematicHeroProps {
@@ -113,17 +113,16 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
     // -------------------------------------------------------------------------
     // 3. Preload Strategy: Start with Frame 037 (index 36)
     // -------------------------------------------------------------------------
-    const startFrameIndex = TOTAL_FRAMES - 1 // 36 -> ezgif-frame-037.jpg (horizontal particle wave)
+    const startFrameIndex = TOTAL_FRAMES - 1 // 36 -> processed-ezgif-frame-037.png (horizontal particle wave)
 
     const startImg = new Image()
-    startImg.src = getFramePath(startFrameIndex)
     imagesRef.current[startFrameIndex] = startImg
 
     let entranceStartTime = 0
     let isEntranceActive = true
 
-    startImg.onload = () => {
-      if (isDisposed) return
+    const onStartImageLoaded = () => {
+      if (isDisposed || isLoadedRef.current[startFrameIndex]) return
       isLoadedRef.current[startFrameIndex] = true
       setIsReady(true)
 
@@ -136,12 +135,21 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       // Preload subsequent frames in priority order of reverse scroll (35 down to 0)
       for (let i = startFrameIndex - 1; i >= 0; i--) {
         const frameImg = new Image()
-        frameImg.src = getFramePath(i)
         imagesRef.current[i] = frameImg
         frameImg.onload = () => {
           if (!isDisposed) isLoadedRef.current[i] = true
         }
+        frameImg.src = getFramePath(i)
+        if (frameImg.complete) {
+          isLoadedRef.current[i] = true
+        }
       }
+    }
+
+    startImg.onload = onStartImageLoaded
+    startImg.src = getFramePath(startFrameIndex)
+    if (startImg.complete) {
+      onStartImageLoaded()
     }
 
     // -------------------------------------------------------------------------

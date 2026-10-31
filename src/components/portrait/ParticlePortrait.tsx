@@ -10,7 +10,7 @@ interface ParticlePortraitProps {
 }
 
 export function ParticlePortrait({
-  imageSrc = '/mobile_fit_image/KM.jpeg',
+  imageSrc = '/images/khairul-portrait.png',
   className = '',
 }: ParticlePortraitProps) {
   const mountRef = useRef<HTMLDivElement>(null)
