@@ -1,0 +1,43 @@
+// Mobile-Only Scroll-Driven Cinematic Portrait Animation
+// Strictly hidden on desktop viewports (> 900px)
+.animationSection {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .animationSection {
+    display: block;
+    position: relative;
+    width: 100%;
+    // 240vh provides comfortable scroll runway for scrubbing all 40 frames smoothly
+    height: 240vh;
+    background: transparent;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .stickyStage {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: transparent;
+    pointer-events: none;
+  }
+}

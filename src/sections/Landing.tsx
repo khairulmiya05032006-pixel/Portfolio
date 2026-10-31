@@ -1,7 +1,6 @@
 'use client'
 
 import { portfolioConfig } from '@/config/portfolio'
-import { ParticlePortrait } from '@/components/portrait/ParticlePortrait'
 import styles from './Landing.module.scss'
 
 export function Landing() {
@@ -15,13 +14,6 @@ export function Landing() {
           Khairul
           <span className={styles.accentText}>Miya</span>
         </h1>
-
-        {/* Mobile Interactive 3D Particle Portrait: Rendered between Name and Paragraph */}
-        <div className={styles.mobileImageContainer}>
-          <div className={styles.mobileImageWrapper}>
-            <ParticlePortrait imageSrc="/mobile_fit_image/KM.jpeg" />
-          </div>
-        </div>
 
         <p className={styles.tagline}>{profile.tagline}</p>
 
