@@ -14,7 +14,6 @@ export function ParticlePortrait({
   className = '',
 }: ParticlePortraitProps) {
   const mountRef = useRef<HTMLDivElement>(null)
-  const [isLoaded, setIsLoaded] = useState(false)
   const [hasWebGl, setHasWebGl] = useState(true)
 
   useEffect(() => {
@@ -54,25 +53,25 @@ export function ParticlePortrait({
     })
     renderer.setSize(width, height)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0x000000, 0)
+    renderer.setClearColor(0x000000, 0) // 100% transparent background
     mount.appendChild(renderer.domElement)
 
-    // Interaction tracking vectors
-    const targetMouse = new THREE.Vector3(-9999, -9999, 0)
-    const currentMouse = new THREE.Vector3(-9999, -9999, 0)
-    let targetForce = 0.0
-    let currentForce = 0.0
-    let isInteracting = false
+    // Scroll tracking physics
+    let targetProgress = 0.0
+    let currentProgress = 0.0
+    let targetVelocity = 0.0
+    let currentVelocity = 0.0
+    let lastScrollY = window.scrollY
+    let lastScrollTime = performance.now()
     let isVisible = true
     const clock = new THREE.Clock()
 
     // -------------------------------------------------------------------------
-    // 2. Custom Shader Material for 3D Particle Explosion & Reassembly
+    // 2. Custom Shader Material for Scroll-Driven 3D Particle Dispersion
     // -------------------------------------------------------------------------
     const vertexShader = `
-      uniform vec3 uMouse;
-      uniform float uMouseRadius;
-      uniform float uExplosionForce;
+      uniform float uScrollProgress;
+      uniform float uScrollVelocity;
       uniform float uTime;
       uniform float uPixelRatio;
 
@@ -90,36 +89,35 @@ export function ParticlePortrait({
 
         vec3 pos = aOrigin;
 
-        // Subtle organic idle wave motion
-        float wave = sin(uTime * 1.6 + aOrigin.y * 2.5 + aOrigin.x * 2.0) * 0.015;
+        // Subtle organic breathing idle wave
+        float wave = sin(uTime * 1.5 + aOrigin.y * 2.5 + aOrigin.x * 2.0) * 0.012;
         pos.z += wave;
 
-        // Vector to mouse position
-        vec2 toMouse = pos.xy - uMouse.xy;
-        float dist = length(toMouse);
+        // Combined dispersion force driven by scroll progress + velocity
+        float spread = uScrollProgress * 1.35 + uScrollVelocity * 0.35;
 
-        // Explosion calculation
-        if (dist < uMouseRadius && uExplosionForce > 0.001) {
-          float influence = (1.0 - smoothstep(0.0, uMouseRadius, dist)) * uExplosionForce;
-          
-          // Radial repulsion with organic directional scatter
-          vec2 repulseDir = normalize(toMouse + aDirection.xy * 0.4);
-          float scatterDist = influence * (0.8 + aRandomFactor * 0.9);
-          
-          pos.xy += repulseDir * scatterDist;
-          // Disperse outward in 3D depth (Z)
-          pos.z += (aDirection.z * 1.8 + 0.6) * scatterDist;
+        if (spread > 0.001) {
+          // Outward 3D explosion along directional vectors
+          float scatterDist = spread * (0.85 + aRandomFactor * 1.1);
+
+          // Disperse radially outward in XY
+          pos.xy += aDirection.xy * scatterDist * 1.45;
+
+          // Explode outward in 3D Z-depth
+          pos.z += (aDirection.z * 1.9 + 0.45) * scatterDist * 1.25;
         }
 
         vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
         gl_Position = projectionMatrix * mvPosition;
 
-        // Perspective-attenuated point size
+        // Perspective point size
         float pSize = aSize * (1.0 + wave * 1.5);
         gl_PointSize = pSize * (320.0 / -mvPosition.z) * (uPixelRatio / 2.0);
         gl_PointSize = clamp(gl_PointSize, 1.0, 14.0);
 
-        vAlpha = smoothstep(0.04, 0.22, length(aColor));
+        // Soft fade out as particles disperse far
+        float disperseFade = 1.0 - smoothstep(0.75, 1.8, spread) * 0.55;
+        vAlpha = smoothstep(0.04, 0.22, length(aColor)) * disperseFade;
       }
     `
 
@@ -128,7 +126,7 @@ export function ParticlePortrait({
       varying float vAlpha;
 
       void main() {
-        // Draw soft circular particle disc
+        // Soft circular particle disc
         vec2 coord = gl_PointCoord - vec2(0.5);
         float dist = length(coord);
         if (dist > 0.5) discard;
@@ -142,9 +140,8 @@ export function ParticlePortrait({
       vertexShader,
       fragmentShader,
       uniforms: {
-        uMouse: { value: currentMouse },
-        uMouseRadius: { value: 0.95 },
-        uExplosionForce: { value: 0.0 },
+        uScrollProgress: { value: 0.0 },
+        uScrollVelocity: { value: 0.0 },
         uTime: { value: 0.0 },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
       },
@@ -231,7 +228,7 @@ export function ParticlePortrait({
           if (u > 0.52) {
             const uNorm = Math.min(1.0, (u - 0.52) / 0.42)
             const rimFactor = Math.pow(uNorm, 1.35) * Math.min(1.0, mono * 1.25 + 0.25)
-            
+
             colR = mono * (1.0 - rimFactor) + rimR * (mono * 0.45 + 0.65) * rimFactor
             colG = mono * (1.0 - rimFactor) + rimG * (mono * 0.45 + 0.65) * rimFactor
             colB = mono * (1.0 - rimFactor) + rimB * (mono * 0.45 + 0.65) * rimFactor
@@ -244,8 +241,8 @@ export function ParticlePortrait({
           )
 
           // Unique random 3D explosion dispersion direction
-          const dirX = (Math.random() - 0.5) * 1.2 + (posX / worldW) * 0.8
-          const dirY = (Math.random() - 0.5) * 1.2 + (posY / worldH) * 0.8
+          const dirX = (Math.random() - 0.5) * 1.2 + (posX / worldW) * 0.85
+          const dirY = (Math.random() - 0.5) * 1.2 + (posY / worldH) * 0.85
           const dirZ = Math.random() * 1.6 + 0.5
           const len = Math.hypot(dirX, dirY, dirZ) || 1.0
 
@@ -265,54 +262,32 @@ export function ParticlePortrait({
 
       pointsObject = new THREE.Points(geometry, material)
       scene.add(pointsObject)
-
-      setIsLoaded(true)
     }
 
     // -------------------------------------------------------------------------
-    // 4. Pointer & Touch Interactions
+    // 4. Scroll Tracking (Particles spread as user scrolls, not when click)
     // -------------------------------------------------------------------------
-    const updatePointerPos = (clientX: number, clientY: number) => {
-      const rect = renderer.domElement.getBoundingClientRect()
-      const normX = ((clientX - rect.left) / rect.width) * 2 - 1
-      const normY = -(((clientY - rect.top) / rect.height) * 2 - 1)
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      const now = performance.now()
+      const dt = Math.max(1, now - lastScrollTime)
 
-      // Unproject pointer to Z=0 plane in 3D world space
-      const vector = new THREE.Vector3(normX, normY, 0.5)
-      vector.unproject(camera)
-      const dir = vector.sub(camera.position).normalize()
-      const distance = -camera.position.z / dir.z
-      const worldPos = camera.position.clone().add(dir.multiplyScalar(distance))
+      // Calculate instantaneous scroll velocity
+      const deltaY = Math.abs(currentScrollY - lastScrollY)
+      const velocity = Math.min(1.5, (deltaY / dt) * 12)
+      targetVelocity = velocity
 
-      targetMouse.copy(worldPos)
-      targetForce = 1.0
-      isInteracting = true
+      lastScrollY = currentScrollY
+      lastScrollTime = now
+
+      // Calculate scroll progress through the hero section (0 at top, spreads as scrolled)
+      const windowHeight = window.innerHeight || 800
+      const maxScrollDistance = Math.min(windowHeight * 0.55, 380)
+      targetProgress = Math.max(0, Math.min(1.8, currentScrollY / maxScrollDistance))
     }
 
-    const handlePointerMove = (e: PointerEvent) => {
-      updatePointerPos(e.clientX, e.clientY)
-    }
-
-    const handlePointerDown = (e: PointerEvent) => {
-      updatePointerPos(e.clientX, e.clientY)
-    }
-
-    const handlePointerUp = () => {
-      targetForce = 0.0
-      isInteracting = false
-    }
-
-    const handlePointerLeave = () => {
-      targetForce = 0.0
-      isInteracting = false
-    }
-
-    const domElement = renderer.domElement
-    domElement.addEventListener('pointermove', handlePointerMove)
-    domElement.addEventListener('pointerdown', handlePointerDown)
-    domElement.addEventListener('pointerup', handlePointerUp)
-    domElement.addEventListener('pointerleave', handlePointerLeave)
-    domElement.addEventListener('pointercancel', handlePointerUp)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // initial state check
 
     // -------------------------------------------------------------------------
     // 5. Visibility & Resize Observers
@@ -321,7 +296,7 @@ export function ParticlePortrait({
       ([entry]) => {
         isVisible = entry.isIntersecting
       },
-      { threshold: 0.1 }
+      { threshold: 0.05 }
     )
     visibilityObserver.observe(mount)
 
@@ -339,7 +314,7 @@ export function ParticlePortrait({
     resizeObserver.observe(mount)
 
     // -------------------------------------------------------------------------
-    // 6. Smooth Render Loop (60-120 FPS, GPU-Accelerated)
+    // 6. Smooth Render Loop (GPU-Accelerated)
     // -------------------------------------------------------------------------
     const tick = () => {
       if (isDisposed) return
@@ -348,16 +323,13 @@ export function ParticlePortrait({
         const elapsedTime = clock.getElapsedTime()
         material.uniforms.uTime.value = elapsedTime
 
-        // Smoothly interpolate mouse and explosion force
-        if (isInteracting) {
-          currentMouse.lerp(targetMouse, 0.15)
-          currentForce += (targetForce - currentForce) * 0.12
-        } else {
-          currentForce += (0.0 - currentForce) * 0.06
-        }
+        // Smoothly interpolate scroll progress and velocity
+        currentProgress += (targetProgress - currentProgress) * 0.1
+        currentVelocity += (targetVelocity - currentVelocity) * 0.08
+        targetVelocity *= 0.92 // decay velocity when scroll slows
 
-        material.uniforms.uMouse.value.copy(currentMouse)
-        material.uniforms.uExplosionForce.value = currentForce
+        material.uniforms.uScrollProgress.value = currentProgress
+        material.uniforms.uScrollVelocity.value = currentVelocity
 
         renderer.render(scene, camera)
       }
@@ -374,22 +346,17 @@ export function ParticlePortrait({
       isDisposed = true
       if (animationFrameId) cancelAnimationFrame(animationFrameId)
 
+      window.removeEventListener('scroll', handleScroll)
       visibilityObserver.disconnect()
       resizeObserver.disconnect()
-
-      domElement.removeEventListener('pointermove', handlePointerMove)
-      domElement.removeEventListener('pointerdown', handlePointerDown)
-      domElement.removeEventListener('pointerup', handlePointerUp)
-      domElement.removeEventListener('pointerleave', handlePointerLeave)
-      domElement.removeEventListener('pointercancel', handlePointerUp)
 
       if (pointsObject) scene.remove(pointsObject)
       if (geometry) geometry.dispose()
       material.dispose()
       renderer.dispose()
 
-      if (domElement && domElement.parentNode) {
-        domElement.parentNode.removeChild(domElement)
+      if (renderer.domElement && renderer.domElement.parentNode) {
+        renderer.domElement.parentNode.removeChild(renderer.domElement)
       }
     }
   }, [imageSrc])
@@ -411,17 +378,9 @@ export function ParticlePortrait({
   return (
     <div
       className={`${styles.portraitContainer} ${className}`}
-      aria-label="Interactive 3D particle portrait"
+      aria-label="3D particle portrait (scroll to disperse)"
     >
       <div ref={mountRef} className={styles.canvasMount} />
-      
-      {/* Subtle vignette mask to dissolve edges seamlessly into background */}
-      <div className={styles.vignetteOverlay} aria-hidden="true" />
-
-      {/* Loading state indicator */}
-      {!isLoaded && (
-        <div className={styles.loadingPulse} aria-hidden="true" />
-      )}
     </div>
   )
 }
