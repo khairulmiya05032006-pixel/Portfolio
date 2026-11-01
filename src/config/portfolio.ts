@@ -16,6 +16,7 @@ export interface ProjectItem {
   featured: boolean
   metrics?: string
   image: string
+  status?: 'live' | 'coming-soon'
 }
 
 export interface ServiceItem {
@@ -138,6 +139,7 @@ export const portfolioConfig = {
       featured: true,
       metrics: 'Full-Stack Web Application',
       image: '/images/projects/amana-capital.webp',
+      status: 'live',
     },
     {
       id: 'javascript-mini-projects',
@@ -146,11 +148,10 @@ export const portfolioConfig = {
       category: 'JavaScript Utilities',
       description: 'A collection of interactive web utilities demonstrating event handling, calculations, and responsive layouts.',
       technologies: ['JavaScript', 'DOM APIs', 'CSS3', 'Algorithms'],
-      liveUrl: '#',
-      githubUrl: 'https://github.com',
       featured: true,
       metrics: 'Interactive Web Tools',
       image: '/images/projects/js-projects.webp',
+      status: 'coming-soon',
     },
     {
       id: 'visual-studies',
@@ -159,13 +160,12 @@ export const portfolioConfig = {
       category: 'Frontend Design & Layouts',
       description: 'Explorations in responsive web design, modern CSS grid and flexbox patterns, and clean dark-mode interfaces.',
       technologies: ['HTML5', 'SCSS', 'Responsive Design', 'CSS Grid'],
-      liveUrl: '#',
-      githubUrl: 'https://github.com',
       featured: false,
       metrics: 'Responsive Layouts',
       image: '/images/projects/visual-studies.webp',
+      status: 'coming-soon',
     },
-  ],
+  ] as ProjectItem[],
   techStackItems: [
     { name: 'JavaScript', category: 'Language', color: '#f7df1e', bg: '#1c1917' },
     { name: 'TypeScript', category: 'Language', color: '#3178c6', bg: '#0f172a' },

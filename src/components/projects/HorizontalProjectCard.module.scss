@@ -47,6 +47,57 @@
   justify-content: space-between;
   margin-bottom: 1rem;
   flex-shrink: 0;
+  gap: 0.75rem;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.comingSoonBadge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #f3e8ff;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(147, 51, 234, 0.18);
+  border: 1px solid rgba(192, 132, 252, 0.45);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.25);
+  animation: comingSoonGlow 3s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+.badgeGlowAura {
+  position: absolute;
+  inset: -1px;
+  border-radius: 999px;
+  background: radial-gradient(circle at center, rgba(192, 132, 252, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.badgeSparkle {
+  color: #c084fc;
+  font-size: 0.75rem;
+}
+
+@keyframes comingSoonGlow {
+  0%, 100% {
+    border-color: rgba(192, 132, 252, 0.35);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    border-color: rgba(216, 180, 254, 0.7);
+    box-shadow: 0 0 24px rgba(168, 85, 247, 0.45);
+  }
 }
 
 .number {
@@ -236,14 +287,210 @@
   transition: transform 0.25s ease;
 }
 
+.comingSoonPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.25rem;
+  min-height: 40px;
+  border-radius: 999px;
+  background: rgba(147, 51, 234, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  color: #f3e8ff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  user-select: none;
+  cursor: default;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.15);
+  transition: border-color 0.25s ease, background 0.25s ease;
+
+  .pillSparkle {
+    color: #c084fc;
+    font-size: 0.82rem;
+    animation: sparkleSpin 4s ease-in-out infinite;
+  }
+}
+
+@keyframes sparkleSpin {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
+  50% { transform: scale(1.25) rotate(15deg); opacity: 1; }
+}
+
 /* Visual Mockup Container (Right Column) */
 .visualWrapper {
+  position: relative;
   flex: 1;
   min-width: 0;
   display: flex;
   align-items: stretch;
   border-radius: 0.85rem;
   overflow: hidden;
+}
+
+.mockupWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: filter 0.35s ease, opacity 0.35s ease;
+}
+
+.mockupWrapperSoftened {
+  filter: blur(3.5px) saturate(0.65);
+  opacity: 0.28;
+  pointer-events: none;
+  user-select: none;
+}
+
+.comingSoonOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  background: radial-gradient(circle at center, rgba(18, 13, 32, 0.82) 0%, rgba(10, 8, 16, 0.95) 85%);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 0.85rem;
+  z-index: 5;
+  text-align: center;
+}
+
+.ambientGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 190px;
+  background: radial-gradient(ellipse at center, rgba(147, 51, 234, 0.32) 0%, rgba(109, 40, 217, 0.12) 50%, transparent 80%);
+  filter: blur(36px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.overlayCard {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 330px;
+  gap: 0.65rem;
+}
+
+.iconCircle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(147, 51, 234, 0.15);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c084fc;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.3);
+  margin-bottom: 0.2rem;
+}
+
+.lockIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.badgeSmall {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e9d5ff;
+  padding: 0.22rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(167, 139, 250, 0.16);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+}
+
+.sparkleDot {
+  color: #c084fc;
+  font-size: 0.7rem;
+}
+
+.overlayTitle {
+  font-family: var(--font-display, serif);
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+  text-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+
+  em {
+    font-style: italic;
+    color: #f3e8ff;
+  }
+}
+
+.overlayDesc {
+  font-family: var(--font-body, sans-serif);
+  font-size: 0.86rem;
+  color: #c4b5fd;
+  margin: 0;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+.statusBar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a855f7;
+  box-shadow: 0 0 8px #a855f7;
+  animation: pulseDotAnim 2s infinite ease-in-out;
+}
+
+.statusText {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #e2d9f3;
+  letter-spacing: 0.04em;
+}
+
+@keyframes pulseDotAnim {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.25); opacity: 1; }
+}
+
+.cardComingSoon {
+  &:hover {
+    border-color: rgba(192, 132, 252, 0.4);
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.8),
+      0 0 28px -4px rgba(167, 120, 240, 0.18);
+
+    .comingSoonBadge {
+      border-color: rgba(216, 180, 254, 0.8);
+      box-shadow: 0 0 24px rgba(168, 85, 247, 0.5);
+    }
+  }
 }
 
 .mockupContainer {
@@ -631,6 +878,11 @@
     scroll-snap-align: center;
   }
 
+  .topBar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
   .cardBody {
     flex-direction: column;
     gap: 1rem;
@@ -653,6 +905,49 @@
     min-height: 190px;
   }
 
+  .comingSoonOverlay {
+    padding: 1rem 0.75rem;
+  }
+
+  .overlayCard {
+    max-width: 280px;
+    gap: 0.35rem;
+  }
+
+  .iconCircle {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0.1rem;
+
+    .lockIcon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .badgeSmall {
+    font-size: 0.62rem;
+    padding: 0.15rem 0.55rem;
+  }
+
+  .overlayTitle {
+    font-size: 0.95rem;
+  }
+
+  .overlayDesc {
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  .statusBar {
+    margin-top: 0.15rem;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .statusText {
+    font-size: 0.62rem;
+  }
+
   .title {
     font-size: 1.35rem;
   }
@@ -669,9 +964,33 @@
     padding: 1rem;
   }
 
+  .comingSoonBadge {
+    font-size: 0.66rem;
+    padding: 0.22rem 0.6rem;
+  }
+
+  .comingSoonPill {
+    width: 100%;
+    justify-content: center;
+  }
+
   .mockupContainer {
     height: 170px;
     min-height: 170px;
+  }
+
+  .overlayCard {
+    max-width: 240px;
+    gap: 0.25rem;
+  }
+
+  .overlayTitle {
+    font-size: 0.88rem;
+  }
+
+  .overlayDesc {
+    font-size: 0.72rem;
+    line-height: 1.3;
   }
 
   .metricGrid {
@@ -686,5 +1005,17 @@
   .primaryBtn,
   .secondaryBtn {
     justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comingSoonBadge,
+  .pillSparkle,
+  .pulseDot {
+    animation: none !important;
+  }
+
+  .mockupWrapper {
+    transition: none !important;
   }
 }
