@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import styles from './BackgroundScrollAnimation.module.scss'
@@ -28,6 +28,7 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
 
   const imagesRef = useRef<(HTMLImageElement | null)[]>([])
   const isLoadedRef = useRef<boolean[]>([])
+  const [isCanvasReady, setIsCanvasReady] = useState(false)
 
   useEffect(() => {
     const container = containerRef.current
@@ -175,9 +176,14 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     // 1. Preload first frame immediately for instant first-paint
     const frame0 = new Image()
     frame0.src = getFramePath(0)
-    frame0.onload = () => {
+    const onFrame0Loaded = () => {
       imagesRef.current[0] = frame0
       isLoadedRef.current[0] = true
+      setIsCanvasReady(true)
+    }
+    frame0.onload = onFrame0Loaded
+    if (frame0.complete) {
+      onFrame0Loaded()
     }
 
     // 2. Preload remaining frames in background
@@ -292,6 +298,14 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
       className={`${styles.container} ${className}`}
       aria-hidden="true"
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/projects/ezgif-frame-001.jpg"
+        alt=""
+        fetchPriority="high"
+        decoding="async"
+        className={`${styles.initialPoster} ${isCanvasReady ? styles.posterHidden : ''}`}
+      />
       <canvas ref={canvasRef} className={styles.canvas} />
       <div ref={overlayLeftRef} className={styles.overlayLeft} />
       <div ref={overlayRightRef} className={styles.overlayRight} />

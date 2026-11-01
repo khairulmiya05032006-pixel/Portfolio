@@ -6,11 +6,11 @@ import styles from './MobileCinematicHero.module.scss'
 
 const TOTAL_FRAMES = 37
 
-// Frames: 001.png (ending complete portrait) to 037.png (starting particle wave)
+// Frames: 001.webp (ending complete portrait) to 037.webp (starting particle wave)
 // Located in /mobile_fit_image/
 const getFramePath = (index: number) => {
   const frameNum = String(index + 1).padStart(3, '0')
-  return `/mobile_fit_image/processed-ezgif-frame-${frameNum}.png`
+  return `/mobile_fit_image/processed-ezgif-frame-${frameNum}.webp`
 }
 
 interface MobileCinematicHeroProps {
@@ -24,7 +24,7 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
 
   const imagesRef = useRef<(HTMLImageElement | null)[]>([])
   const isLoadedRef = useRef<boolean[]>([])
-  const [, setIsReady] = useState(false)
+  const [isCanvasReady, setIsCanvasReady] = useState(false)
 
   useEffect(() => {
     // Exclusively mobile implementation (<= 900px)
@@ -152,7 +152,7 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
     const onStartImageLoaded = () => {
       if (isDisposed || isLoadedRef.current[startFrameIndex]) return
       isLoadedRef.current[startFrameIndex] = true
-      setIsReady(true)
+      setIsCanvasReady(true)
 
       // Start the subtle zoom-out entrance animation
       entranceStartTime = performance.now()
@@ -160,7 +160,7 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       // Immediately render frame 037 at starting full-width
       drawFrame(startFrameIndex, 0, 1.05)
 
-      // Preload subsequent frames in priority batches of 3 to avoid mobile network congestion
+      // Preload subsequent frames in priority batches of 4 to avoid mobile network congestion
       const remainingIndices: number[] = []
       for (let i = startFrameIndex - 1; i >= 0; i--) {
         remainingIndices.push(i)
@@ -168,7 +168,7 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
 
       const loadNextBatch = () => {
         if (isDisposed || remainingIndices.length === 0) return
-        const batch = remainingIndices.splice(0, 3)
+        const batch = remainingIndices.splice(0, 4)
         batch.forEach((i) => {
           const frameImg = new Image()
           imagesRef.current[i] = frameImg
@@ -184,7 +184,7 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
           if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
             ;(window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(loadNextBatch)
           } else {
-            setTimeout(loadNextBatch, 50)
+            setTimeout(loadNextBatch, 35)
           }
         }
       }
@@ -342,6 +342,14 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
 
         {/* Dedicated Center Area: Canvas Particle-to-Portrait Animation */}
         <div className={styles.canvasContainer}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/mobile_fit_image/processed-ezgif-frame-037.webp"
+            alt="Khairul Miya portrait particle reconstruction"
+            fetchPriority="high"
+            decoding="async"
+            className={`${styles.initialPoster} ${isCanvasReady ? styles.posterHidden : ''}`}
+          />
           <canvas ref={canvasRef} className={styles.canvas} />
         </div>
 

@@ -57,6 +57,25 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload starting animation frames so mobile and desktop heroes appear instantly */}
+        <link
+          rel="preload"
+          as="image"
+          type="image/webp"
+          href="/mobile_fit_image/processed-ezgif-frame-037.webp"
+          media="(max-width: 900px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          type="image/jpeg"
+          href="/images/projects/ezgif-frame-001.jpg"
+          media="(min-width: 901px)"
+          fetchPriority="high"
+        />
+      </head>
       <body>
         <PageTransitionProvider>{children}</PageTransitionProvider>
       </body>
