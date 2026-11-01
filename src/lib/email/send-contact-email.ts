@@ -8,6 +8,10 @@ export async function sendContactEmail(data: {
   message: string
 }): Promise<{ success: boolean; error?: string }> {
   // TODO: Integrate with email service (e.g., Resend)
-  console.log('Contact form submission:', data)
+  // Safely avoid logging raw PII in production logs
+  if (process.env.NODE_ENV === 'development') {
+    // Only log length/metadata in dev mode
+    console.debug(`Contact message received from ${data.email.replace(/(?<=.{2}).(?=[^@]*?@)/g, '*')}`)
+  }
   return { success: true }
 }

@@ -5,8 +5,18 @@ import { checkRateLimit } from '@/lib/security/rate-limit'
 
 export async function POST(request: Request) {
   try {
-    // Rate limiting
-    const ip = request.headers.get('x-forwarded-for') ?? 'unknown'
+    // Guard against oversized payloads (max 16KB)
+    const contentLength = request.headers.get('content-length')
+    if (contentLength && parseInt(contentLength, 10) > 16384) {
+      return NextResponse.json(
+        { error: 'Payload too large' },
+        { status: 413 }
+      )
+    }
+
+    // Rate limiting with safe IP extraction
+    const rawIp = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
+    const ip = rawIp.split(',')[0].trim()
     const { allowed } = checkRateLimit(ip)
     if (!allowed) {
       return NextResponse.json(

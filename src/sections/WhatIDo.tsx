@@ -15,7 +15,7 @@ export function WhatIDo() {
           What I <span>Do & Build</span>
         </h2>
         <p className={styles.subtitle}>
-          What I focus on when developing software and building web applications.
+          I build end-to-end web applications and explore AI-powered technologies to create smarter, more useful digital experiences.
         </p>
       </div>
 

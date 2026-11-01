@@ -2,18 +2,56 @@ import type { Metadata } from 'next'
 import { PageTransitionProvider } from '@/components/motion/PageTransition'
 import './globals.scss'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://khairulmiya.dev'
 
 export const metadata: Metadata = {
-  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
-  title: 'Khairul Miya | Full-stack developer in progress',
-  description: 'Khairul Miya is a third-year BCA student learning to build useful web products with JavaScript, React, Next.js, Node.js, Express, and MySQL.',
-  openGraph: {
-    title: 'Khairul Miya | Full-stack developer in progress',
-    description: 'A BCA student learning through responsive interfaces, JavaScript projects, and a documented full-stack loan-management system.',
-    type: 'website',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Khairul Miya | Full-Stack Developer & AI Enthusiast',
+    template: '%s | Khairul Miya',
   },
-  robots: { index: true, follow: true },
+  description:
+    'Khairul Miya is a Full-Stack Developer and AI Enthusiast building user-focused web applications with clean interfaces, reliable APIs, and maintainable backend systems.',
+  keywords: [
+    'Khairul Miya',
+    'Full-Stack Developer',
+    'AI Enthusiast',
+    'React',
+    'Next.js',
+    'TypeScript',
+    'Node.js',
+    'Express',
+    'MySQL',
+    'Portfolio',
+  ],
+  authors: [{ name: 'Khairul Miya' }],
+  creator: 'Khairul Miya',
+  openGraph: {
+    title: 'Khairul Miya | Full-Stack Developer & AI Enthusiast',
+    description:
+      'Personal portfolio, projects, and engineering journey of Khairul Miya — Full-Stack Developer & AI Enthusiast.',
+    url: siteUrl,
+    siteName: 'Khairul Miya Portfolio',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Khairul Miya | Full-Stack Developer & AI Enthusiast',
+    description:
+      'Personal portfolio, projects, and engineering journey of Khairul Miya — Full-Stack Developer & AI Enthusiast.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

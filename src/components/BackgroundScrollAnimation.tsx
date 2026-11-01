@@ -34,6 +34,12 @@ export function BackgroundScrollAnimation({ className = '' }: BackgroundScrollAn
     const cvs = canvasRef.current
     if (!container || !cvs) return
 
+    // Desktop-only animation: completely avoid loading 40 desktop frames
+    // or spinning RAF loops on mobile viewports (<= 900px)
+    if (window.innerWidth <= 900) {
+      return
+    }
+
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches

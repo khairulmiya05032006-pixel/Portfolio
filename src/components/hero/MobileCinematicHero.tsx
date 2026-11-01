@@ -160,18 +160,35 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       // Immediately render frame 037 at starting full-width
       drawFrame(startFrameIndex, 0, 1.05)
 
-      // Preload subsequent frames in priority order of reverse scroll (35 down to 0)
+      // Preload subsequent frames in priority batches of 3 to avoid mobile network congestion
+      const remainingIndices: number[] = []
       for (let i = startFrameIndex - 1; i >= 0; i--) {
-        const frameImg = new Image()
-        imagesRef.current[i] = frameImg
-        frameImg.onload = () => {
-          if (!isDisposed) isLoadedRef.current[i] = true
-        }
-        frameImg.src = getFramePath(i)
-        if (frameImg.complete) {
-          isLoadedRef.current[i] = true
+        remainingIndices.push(i)
+      }
+
+      const loadNextBatch = () => {
+        if (isDisposed || remainingIndices.length === 0) return
+        const batch = remainingIndices.splice(0, 3)
+        batch.forEach((i) => {
+          const frameImg = new Image()
+          imagesRef.current[i] = frameImg
+          frameImg.onload = () => {
+            if (!isDisposed) isLoadedRef.current[i] = true
+          }
+          frameImg.src = getFramePath(i)
+          if (frameImg.complete) {
+            isLoadedRef.current[i] = true
+          }
+        })
+        if (remainingIndices.length > 0) {
+          if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+            ;(window as unknown as { requestIdleCallback: (cb: () => void) => void }).requestIdleCallback(loadNextBatch)
+          } else {
+            setTimeout(loadNextBatch, 50)
+          }
         }
       }
+      loadNextBatch()
     }
 
     startImg.onload = onStartImageLoaded
@@ -316,6 +333,7 @@ export function MobileCinematicHero({ profile }: MobileCinematicHeroProps) {
       <div className={styles.stickyStage}>
         {/* Top Header Block: Name & Subtitle */}
         <div className={styles.headerBlock}>
+          <span className={styles.greeting}>PEACE BE UPON YOU. I&apos;M</span>
           <h1 className={styles.headline}>
             Khairul <span className={styles.accentText}>Miya</span>
           </h1>

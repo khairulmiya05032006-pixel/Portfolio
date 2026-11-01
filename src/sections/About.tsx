@@ -20,13 +20,13 @@ export function About() {
 
         <div className={styles.contentBody}>
           <p>
-            I am a third-year Bachelor of Computer Applications (BCA) student graduating in 2027,
-            passionate about building clean web applications and responsive interfaces.
+            I&apos;m Khairul Miya, a BCA student graduating in 2027 with a strong interest in full-stack development.
           </p>
           <p>
-            My main focus is on modern full-stack development with React, TypeScript, and Node.js.
-            I enjoy creating fast, user-friendly experiences on the front-end and reliable, well-structured
-            APIs on the back-end.
+            I enjoy turning ideas into practical web applications, with a focus on clean interfaces, responsive experiences, and maintainable code. I work primarily with React, TypeScript, Node.js, and Express, building everything from user-facing features to backend APIs and database-driven functionality.
+          </p>
+          <p>
+            I&apos;m always exploring better ways to solve problems, improve application performance, and build software that delivers real value. My goal is to grow as an engineer while contributing to products that people genuinely find useful.
           </p>
         </div>
 

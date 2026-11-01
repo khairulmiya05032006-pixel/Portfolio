@@ -1,12 +1,17 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SkillBackground3D } from '@/components/skills/SkillBackground3D'
 import { SkillGrid } from '@/components/skills/SkillGrid'
 import { SKILLS_CONFIG } from '@/config/skills'
 import styles from './TechStack.module.scss'
+
+const SkillBackground3D = dynamic(
+  () => import('@/components/skills/SkillBackground3D').then((mod) => mod.SkillBackground3D),
+  { ssr: false }
+)
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)

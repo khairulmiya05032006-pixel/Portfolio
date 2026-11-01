@@ -12,6 +12,7 @@ export function Landing() {
       {/* Desktop Spatial Corridors: 100% Preserved for Desktop Screens (> 900px) */}
       <div className={styles.desktopLayout}>
         <div className={styles.corridorLeft}>
+          <span className={styles.greeting}>PEACE BE UPON YOU. I&apos;M</span>
           <h1 className={styles.headline}>
             Khairul
             <span className={styles.accentText}>Miya</span>

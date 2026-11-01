@@ -155,6 +155,8 @@ export function MobileCurvedSlider({ career }: MobileCurvedSliderProps) {
     setActiveCenterIndex((prev) => (prev !== closestIndex ? closestIndex : prev))
   }, [getSlotDimensions, itemCount])
 
+  const animateRef = useRef<((time: number) => void) | null>(null)
+
   // Continuous animation loop using requestAnimationFrame
   const animate = useCallback((time: number) => {
     if (!lastTimeRef.current) lastTimeRef.current = time
@@ -172,8 +174,14 @@ export function MobileCurvedSlider({ career }: MobileCurvedSliderProps) {
       renderPositions()
     }
 
-    rafIdRef.current = requestAnimationFrame(animate)
+    rafIdRef.current = requestAnimationFrame((t) => {
+      animateRef.current?.(t)
+    })
   }, [renderPositions])
+
+  useEffect(() => {
+    animateRef.current = animate
+  }, [animate])
 
   // Setup Observer & Lifecycle
   useEffect(() => {

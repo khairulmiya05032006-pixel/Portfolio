@@ -1,8 +1,0 @@
-@use '../../styles/abstracts/mixins' as mixins;
-
-.header { align-items: center; display: flex; height: 4.75rem; justify-content: space-between; left: 0; padding: 0 clamp(1.25rem, 5vw, 5.5rem); pointer-events: none; position: absolute; right: 0; top: 0; z-index: 10; }
-.brand { @include mixins.display-type; color: var(--color-text); font-size: 1.55rem; pointer-events: auto; text-decoration: none; }
-.brand span { color: var(--color-amber); }
-.note { @include mixins.mono-label; color: var(--color-muted); margin: 0 0 0 auto; padding-right: 1.1rem; }
-.note span { color: var(--color-amber); margin-inline: 0.35rem; }
-@media (max-width: 620px) { .header { height: 4.4rem; } .note { display: none; } }
