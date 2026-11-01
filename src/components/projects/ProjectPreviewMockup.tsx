@@ -1,14 +1,16 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import styles from './HorizontalProjectCard.module.scss'
 
 interface ProjectPreviewMockupProps {
   projectId: string
   title: string
+  image?: string
 }
 
-export function ProjectPreviewMockup({ projectId, title }: ProjectPreviewMockupProps) {
+export function ProjectPreviewMockup({ projectId, title, image }: ProjectPreviewMockupProps) {
   if (projectId === 'amana-capital') {
     return (
       <div className={styles.mockupContainer} aria-label={`${title} interface preview`}>
@@ -19,64 +21,53 @@ export function ProjectPreviewMockup({ projectId, title }: ProjectPreviewMockupP
             <span className={styles.dotYellow} />
             <span className={styles.dotGreen} />
           </div>
-          <div className={styles.addressBar}>amana-capital.internal/loans/dashboard</div>
+          <div className={styles.addressBar}>amana-capital.official/loans</div>
           <div className={styles.statusLive}>
             <span className={styles.pulse} /> LIVE
           </div>
         </div>
 
-        {/* Dashboard Preview Body */}
-        <div className={styles.browserBody}>
-          <div className={styles.dashSidebar}>
-            <div className={styles.sidebarBrand}>Amana</div>
-            <div className={styles.sidebarLinkActive}>Loans</div>
-            <div className={styles.sidebarLink}>Customers</div>
-            <div className={styles.sidebarLink}>Disbursements</div>
-            <div className={styles.sidebarLink}>Reports</div>
-          </div>
+        {/* Real Screenshot Preview Body */}
+        <div className={styles.browserImageBody}>
+          <Image
+            src={image || '/images/projects/amana-capital.webp'}
+            alt="Amanah Capital Financial Solutions Platform"
+            fill
+            sizes="(max-width: 960px) 100vw, 50vw"
+            className={styles.mockupImage}
+            priority
+          />
+        </div>
+      </div>
+    )
+  }
 
-          <div className={styles.dashMain}>
-            <div className={styles.metricGrid}>
-              <div className={styles.metricBox}>
-                <span className={styles.mLabel}>Active Loans</span>
-                <span className={styles.mValue}>1,420</span>
-                <span className={styles.mTrend}>+12.4% this mo</span>
-              </div>
-              <div className={styles.metricBox}>
-                <span className={styles.mLabel}>Disbursed Total</span>
-                <span className={styles.mValue}>₹48.6L</span>
-                <span className={styles.mTrend}>99.2% repayment</span>
-              </div>
-              <div className={styles.metricBox}>
-                <span className={styles.mLabel}>System Health</span>
-                <span className={styles.mValue}>99.98%</span>
-                <span className={styles.mTrend}>JWT Auth Valid</span>
-              </div>
-            </div>
-
-            {/* Architecture loan lifecycle pipeline */}
-            <div className={styles.pipeline}>
-              <div className={styles.pipeStep}>
-                <span className={styles.stepNum}>01</span>
-                <span>Customer Records</span>
-              </div>
-              <span className={styles.pipeArrow}>→</span>
-              <div className={styles.pipeStep}>
-                <span className={styles.stepNum}>02</span>
-                <span>Loan Application</span>
-              </div>
-              <span className={styles.pipeArrow}>→</span>
-              <div className={styles.pipeStep}>
-                <span className={styles.stepNum}>03</span>
-                <span>EMI Payment</span>
-              </div>
-              <span className={styles.pipeArrow}>→</span>
-              <div className={styles.pipeStep}>
-                <span className={styles.stepNum}>04</span>
-                <span>Audit Reports</span>
-              </div>
-            </div>
+  if (projectId === 'spotify-clone') {
+    return (
+      <div className={styles.mockupContainer} aria-label={`${title} interface preview`}>
+        {/* Browser window header */}
+        <div className={styles.browserHeader}>
+          <div className={styles.trafficLights}>
+            <span className={styles.dotRed} />
+            <span className={styles.dotYellow} />
+            <span className={styles.dotGreen} />
           </div>
+          <div className={styles.addressBar}>spotify-clone.khairul.dev/web-player</div>
+          <div className={styles.statusLive}>
+            <span className={styles.pulse} /> LIVE
+          </div>
+        </div>
+
+        {/* Real Spotify Banner Preview Body */}
+        <div className={styles.browserImageBody}>
+          <Image
+            src={image || '/images/projects/spotify-clone.webp'}
+            alt="Spotify Web Player Clone"
+            fill
+            sizes="(max-width: 960px) 100vw, 50vw"
+            className={styles.mockupImage}
+            priority
+          />
         </div>
       </div>
     )

@@ -576,6 +576,28 @@
   box-shadow: 0 0 6px #a78bfa;
 }
 
+.browserImageBody {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 220px;
+  overflow: hidden;
+  background: #090710;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mockupImage {
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  .card:hover & {
+    transform: scale(1.04);
+  }
+}
+
 .browserBody {
   flex: 1;
   display: flex;

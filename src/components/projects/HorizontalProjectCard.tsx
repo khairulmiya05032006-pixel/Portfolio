@@ -89,7 +89,7 @@ export function HorizontalProjectCard({
               </div>
             ) : (
               <>
-                {project.liveUrl && (
+                {project.liveUrl && project.liveUrl !== '#' && (
                   <a
                     href={project.liveUrl}
                     className={styles.primaryBtn}
@@ -106,7 +106,11 @@ export function HorizontalProjectCard({
                 {project.githubUrl && (
                   <a
                     href={project.githubUrl}
-                    className={styles.secondaryBtn}
+                    className={
+                      project.liveUrl && project.liveUrl !== '#'
+                        ? styles.secondaryBtn
+                        : styles.primaryBtn
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`View source code of ${project.title} on GitHub`}
@@ -129,7 +133,11 @@ export function HorizontalProjectCard({
               isComingSoon ? styles.mockupWrapperSoftened : ''
             }`}
           >
-            <ProjectPreviewMockup projectId={project.id} title={project.title} />
+            <ProjectPreviewMockup
+              projectId={project.id}
+              title={project.title}
+              image={project.image}
+            />
           </div>
 
           {isComingSoon && (
