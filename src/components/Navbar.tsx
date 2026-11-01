@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { portfolioConfig } from '@/config/portfolio'
 import styles from './Navbar.module.scss'
 
@@ -19,7 +20,15 @@ export function Navbar() {
   return (
     <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ''}`}>
       <nav className={styles.navbar} aria-label="Main Navigation">
-        <a href="#landing" className={styles.logo}>
+        <a href="#landing" className={styles.logo} aria-label="Khairul Miya Home">
+          <Image
+            src="/images/khairul-portrait-circle.png"
+            alt="Khairul Miya"
+            width={34}
+            height={34}
+            className={styles.logoAvatar}
+            priority
+          />
           <span className={styles.logoInitials}>KM</span>
           <span className={styles.logoDot} />
         </a>

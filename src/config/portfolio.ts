@@ -46,7 +46,7 @@ export const portfolioConfig = {
     location: 'India',
     availability: 'Open to opportunities',
     resumeUrl: '/resume/resume.pdf',
-    portraitUrl: '/images/khairul-portrait.png',
+    portraitUrl: '/images/khairul-portrait-circle.png',
   },
   socials: [
     { platform: 'GitHub', url: 'https://github.com/khairulmiya05032006-pixel', label: 'khairulmiya05032006-pixel (Khairul Miya)' },

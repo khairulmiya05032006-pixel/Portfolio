@@ -26,6 +26,16 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Khairul Miya' }],
   creator: 'Khairul Miya',
+  icons: {
+    icon: [
+      { url: '/images/khairul-portrait-circle.png', type: 'image/png' },
+      { url: '/favicon.ico' },
+    ],
+    apple: [
+      { url: '/images/khairul-portrait-circle.png', type: 'image/png' },
+    ],
+    shortcut: ['/images/khairul-portrait-circle.png'],
+  },
   openGraph: {
     title: 'Khairul Miya | Full-Stack Developer & AI Enthusiast',
     description:
@@ -58,6 +68,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <head>
+        {/* Favicon & URL Address Bar Icons in Circular Shape */}
+        <link rel="icon" type="image/png" href="/images/khairul-portrait-circle.png" />
+        <link rel="shortcut icon" href="/images/khairul-portrait-circle.png" />
+        <link rel="apple-touch-icon" href="/images/khairul-portrait-circle.png" />
+
         {/* Preload starting animation frames so mobile and desktop heroes appear instantly */}
         <link
           rel="preload"
