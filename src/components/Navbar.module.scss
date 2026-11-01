@@ -40,19 +40,22 @@
 }
 
 .logoAvatar {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid rgba(167, 139, 250, 0.45);
-  box-shadow: 0 0 10px rgba(167, 139, 250, 0.25);
+  border: 2px solid rgba(167, 139, 250, 0.55);
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.3);
   display: block;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 
   &:hover {
-    transform: scale(1.06);
+    transform: scale(1.08);
     border-color: var(--color-accent, #a78bfa);
-    box-shadow: 0 0 14px rgba(167, 139, 250, 0.5);
+    box-shadow: 0 0 18px rgba(167, 139, 250, 0.55);
   }
 }
 
@@ -160,13 +163,59 @@
   .mobileDrawer {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.15rem;
     padding: 1.5rem;
     margin-top: 1rem;
     background: rgba(14, 14, 22, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .drawerProfile {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .drawerAvatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-accent, #a78bfa);
+    box-shadow: 0 0 16px rgba(167, 139, 250, 0.4);
+    flex-shrink: 0;
+  }
+
+  .drawerMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .drawerName {
+    font-family: var(--font-display, sans-serif);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  .drawerTagline {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.68rem;
+    color: var(--color-accent, #a78bfa);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .drawerDivider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 0.15rem 0;
   }
 
   .mobileNavLink {

@@ -24,8 +24,8 @@ export function Navbar() {
           <Image
             src="/images/khairul-portrait-circle.png"
             alt="Khairul Miya"
-            width={34}
-            height={34}
+            width={38}
+            height={38}
             className={styles.logoAvatar}
             priority
           />
@@ -69,6 +69,20 @@ export function Navbar() {
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div className={styles.mobileDrawer}>
+          <div className={styles.drawerProfile}>
+            <Image
+              src="/images/khairul-portrait-circle.png"
+              alt="Khairul Miya"
+              width={46}
+              height={46}
+              className={styles.drawerAvatar}
+            />
+            <div className={styles.drawerMeta}>
+              <span className={styles.drawerName}>Khairul Miya</span>
+              <span className={styles.drawerTagline}>Full-Stack Developer</span>
+            </div>
+          </div>
+          <div className={styles.drawerDivider} />
           {portfolioConfig.navItems.map((item) => (
             <a
               key={item.href}
