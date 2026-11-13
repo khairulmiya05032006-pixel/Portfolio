@@ -135,7 +135,8 @@ export const portfolioConfig = {
       description:
         'Amana Capital is an microfinance web application which gives users secure and trusted loans with customer record tracking and automated EMI calculations.',
       technologies: ['Node.js', 'Express', 'MySQL', 'JWT Auth', 'REST API'],
-      githubUrl: 'https://github.com/khairulmiya05032006-pixel/amana-capital-official',
+      liveUrl: 'https://app.amanacapital.in/',
+      githubUrl: 'https://github.com/khairulmiya05032006-pixel/amana-capital-demo',
       featured: true,
       metrics: 'Full-Stack Web Application',
       image: '/images/projects/amana-capital.webp',
