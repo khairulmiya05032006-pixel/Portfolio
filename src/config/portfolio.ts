@@ -52,7 +52,7 @@ export const portfolioConfig = {
     { platform: 'GitHub', url: 'https://github.com/khairulmiya05032006-pixel', label: 'khairulmiya05032006-pixel (Khairul Miya)' },
     { platform: 'LinkedIn', url: 'https://www.linkedin.com/in/khairulmiya06/', label: 'linkedin.com/in/khairulmiya06' },
     { platform: 'Twitter', url: 'https://x.com', label: 'x.com/khairul' },
-    { platform: 'Email', url: 'mailto:khairulmiya2006@gmail.com', label: 'contact@khairul.dev' },
+    { platform: 'Email', url: 'mailto:khairulmiya2006@gmail.com', label: 'khairulmiya2006@gmail.com' },
   ],
   navItems: [
     { label: 'Home', href: '#landing' },
